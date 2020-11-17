@@ -1,11 +1,22 @@
 #! /usr/bin/env python3
+"""
+Nonsensical Python GUI project using wxPython
+
+This is just to educate myself, nothing here has any real sense.
+"""
 
 import wx
 
 
 class MainWindow(wx.Frame):
+  """
+  Main window shown upon startup of the application
+  """
 
   def __init__(self):
+    """
+    Constructor
+    """
 
     super().__init__(parent = None, title = "Hello World Window Title", size = wx.Size(900, 300))
     self.SetIcon(wx.Icon("graphics/Signal-Uncapped-t0obs.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
@@ -19,6 +30,9 @@ class MainWindow(wx.Frame):
 
 
   def generateUI(self):
+    """
+    Generate the GUI
+    """
 
     # program menubar at the top of the frame
     # list of standard IDs which lead to small icons in the menu: https://wxpython.org/Phoenix/docs/html/wx.StandardID.enumeration.html
@@ -71,6 +85,9 @@ class MainWindow(wx.Frame):
 
 
   def bindUI(self):
+    """
+    Generate the event handling bindings
+    """
 
     self.Bind(event = wx.EVT_MENU, handler = self.menuFileNew_onClick, source = self.menuFileNew)
     self.Bind(event = wx.EVT_MENU, handler = self.menuHelpAbout_onClick, source = self.menuHelpAbout)
@@ -79,11 +96,39 @@ class MainWindow(wx.Frame):
   
 
   def menuFileNew_onClick(self, event):
+    """
+    Delete all the text in the textCtrl
+    """
 
     self.textControl.Clear()
   
 
   def menuHelpAbout_onClick(self, event):
+    """
+    Show a message dialog box
+
+    :param self: Self-reference to the class
+    :type self: :class:`MainWindow`
+    :param event: The event that was triggered
+    :type event: :class:`wx.Event`
+
+    :raises: Perhaps this function could throw an exception
+
+    :returns: Nothing
+    :rtype: My function doesn't return anything
+
+    Here in this message dialog box, some information about the application could be displayed.
+    This could include a description, a version number and possibly also a link to the GitHub repo.
+
+    :example: This is some example, hopefully useful to many people.
+
+    And besides that, I can write a whole lot more.
+
+    .. seealso:: Always try to look beyond the horizon!
+    .. warning:: Some warning - be careful
+    .. note:: Some note to the reader
+    .. todo:: Some todo item
+    """
 
     print("you just clicked on the about menu item")
 
@@ -93,6 +138,7 @@ class MainWindow(wx.Frame):
     dlg.Destroy() # finally destroy it when finished.
 
 
-app = wx.App(redirect = False)
-frame = MainWindow()
-app.MainLoop()
+if __name__ == "__main__":
+  app = wx.App(redirect = False)
+  frame = MainWindow()
+  app.MainLoop()
