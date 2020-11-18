@@ -6,5 +6,6 @@ Notes on Specific Tools and Technologies
    :maxdepth: 2
    :caption: Table of Contents
 
+   git
    sphinx
    wxPython
