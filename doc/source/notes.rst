@@ -6,5 +6,5 @@ Notes on Specific Tools and Technologies
    :maxdepth: 2
    :caption: Table of Contents
 
-   wxPython
    sphinx
+   wxPython
