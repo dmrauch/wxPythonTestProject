@@ -40,16 +40,17 @@ class MainWindow(wx.Frame):
     menuFilePaste = wx.Menu()
     menuFilePaste.Append(id = wx.ID_PASTE, item = "with &format", helpString = "Paste string including formatting", kind = wx. ITEM_RADIO)
     menuFilePaste.Append(id = wx.ID_ANY, item = "witho&ut format\tCtrl+U", helpString = "Paste string without formatting", kind = wx. ITEM_RADIO)
-    menuFilePaste.AppendSeparator()
-    menuFilePaste.Append(id = wx.ID_ANY, item = "Option 1", helpString = "First option", kind = wx. ITEM_RADIO)
-    menuFilePaste.Append(id = wx.ID_ANY, item = "Option 2", helpString = "Second option", kind = wx. ITEM_RADIO)
-    menuFilePaste.Append(id = wx.ID_ANY, item = "Option 3", helpString = "Third option", kind = wx. ITEM_RADIO)
+
+    menuFileLang = wx.Menu()
+    self.menuFileLangEn = menuFileLang.Append(id = wx.ID_ANY, item = "&English\tCtrl+E", helpString = "Show interface in English", kind = wx.ITEM_RADIO)
+    self.menuFileLangDe = menuFileLang.Append(id = wx.ID_ANY, item = "&German\tCtrl+G", helpString = "Show interface in German", kind = wx.ITEM_RADIO)
 
     menuFile = wx.Menu()
     self.menuFileNew = menuFile.Append(id = wx.ID_NEW, item = "New file\tCtrl+N", helpString = "Create a new file")
     menuFile.AppendSeparator()
     menuFile.Append(id = wx.ID_ANY, item = "Toggle something", helpString = "This is a toggle menu item", kind = wx.ITEM_CHECK)
     menuFile.Append(id = wx.ID_ANY, item = "&Paste", subMenu = menuFilePaste, helpString = "Paste string")
+    menuFile.Append(id = wx.ID_ANY, item = "&Language", subMenu = menuFileLang, helpString = "Interface language")
     menuFile.AppendSeparator()
     menuFile.Append(wx.ID_EXIT, "E&xit", " Terminate the program")
 
@@ -63,17 +64,18 @@ class MainWindow(wx.Frame):
 
     # toolbar at the top of the frame, just below the menubar
 
-    toolbar = self.CreateToolBar(style = wx.TB_HORZ_TEXT)
-    self.toolNew = toolbar.AddTool(toolId = 1, label = "New", bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_NEW), shortHelp = "Create new file (Ctrl+N)")
-    toolbar.AddSeparator()
-    toolbar.AddTool(toolId = 2, label = "Toggle somthing", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Toggle somthing", kind = wx.ITEM_CHECK)
-    toolCheck = toolbar.AddTool(toolId = 3, label = "Paste with format", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Check something", kind = wx.ITEM_RADIO)
-    toolCheck2 = toolbar.AddTool(toolId = 4, label = "Paste without format", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Check something", kind = wx.ITEM_RADIO)
-    toolbar.AddSeparator()
-    toolRadio1 = toolbar.AddTool(toolId = 5, label = "Paste option 1", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Drop something", kind = wx.ITEM_RADIO)
-    toolRadio2 = toolbar.AddTool(toolId = 6, label = "Paste option 2", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Drop something", kind = wx.ITEM_RADIO)
-    toolRadio3 = toolbar.AddTool(toolId = 7, label = "Paste option 3", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Drop something", kind = wx.ITEM_RADIO)
-    toolbar.Realize()
+    self.toolLangEnID = 5
+    self.toolLangDeID = 6
+    self.toolbar = self.CreateToolBar(style = wx.TB_HORZ_TEXT)
+    self.toolNew = self.toolbar.AddTool(toolId = 1, label = "New", bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_NEW), shortHelp = "Create new file (Ctrl+N)")
+    self.toolbar.AddSeparator()
+    self.toolbar.AddTool(toolId = 2, label = "Toggle somthing", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Toggle somthing", kind = wx.ITEM_CHECK)
+    toolCheck = self.toolbar.AddTool(toolId = 3, label = "Paste with format", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Check something", kind = wx.ITEM_RADIO)
+    toolCheck2 = self.toolbar.AddTool(toolId = 4, label = "Paste without format", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Check something", kind = wx.ITEM_RADIO)
+    self.toolbar.AddSeparator()
+    self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en", bitmap = wx.Bitmap("graphics/lang_en_32x16.bmp"), shortHelp = "English", kind = wx.ITEM_RADIO)
+    self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de", bitmap = wx.Bitmap("graphics/lang_de_27x16.bmp"), shortHelp = "German", kind = wx.ITEM_RADIO)
+    self.toolbar.Realize()
 
     # statusbar at the bottom of the frame
 
@@ -90,9 +92,13 @@ class MainWindow(wx.Frame):
     """
 
     self.Bind(event = wx.EVT_MENU, handler = self.menuFileNew_onClick, source = self.menuFileNew)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangEn_onClick, source = self.menuFileLangEn)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangDe_onClick, source = self.menuFileLangDe)
     self.Bind(event = wx.EVT_MENU, handler = self.menuHelpAbout_onClick, source = self.menuHelpAbout)
 
     self.Bind(event = wx.EVT_TOOL, handler = self.menuFileNew_onClick, source = self.toolNew)
+    self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangEn_onClick, source = self.toolLangEn)
+    self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangDe_onClick, source = self.toolLangDe)
   
 
   def menuFileNew_onClick(self, event):
@@ -101,6 +107,35 @@ class MainWindow(wx.Frame):
     """
 
     self.textControl.Clear()
+  
+
+  def menuFileLangEn_onClick(self, event):
+    """
+    Event handling function for interface switch to English
+
+    Since this handler is bound to both the corresponding menu item and the
+    corresponding toolbar item, both controls have to be updated / toggled
+    to also correctly set / toggle the one that wasn't clicked.
+
+    .. todo:: Actually manipulate the settings and update all relevant texts
+    """
+    
+    self.menuFileLangEn.Check(True)
+    self.toolbar.ToggleTool(toolId = self.toolLangEnID, toggle = True)
+  
+  def menuFileLangDe_onClick(self, event):
+    """
+    Event handling function for interface switch to English
+
+    Since this handler is bound to both the corresponding menu item and the
+    corresponding toolbar item, both controls have to be updated / toggled
+    to also correctly set / toggle the one that wasn't clicked.
+
+    .. todo:: Actually manipulate the settings and update all relevant texts
+    """
+    
+    self.menuFileLangDe.Check(True)
+    self.toolbar.ToggleTool(toolId = self.toolLangDeID, toggle = True)
   
 
   def menuHelpAbout_onClick(self, event):
