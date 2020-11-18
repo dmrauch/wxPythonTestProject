@@ -13,7 +13,10 @@ Resources and References
 - PyPI project page: https://pypi.org/project/wxPython/
 - API documentation: https://docs.wxpython.org/
 
-  - Stock icons and bitmaps: https://wxpython.org/Phoenix/docs/html/stock_items.html
+  - Stock icons and bitmaps:
+  
+    - https://wxpython.org/Phoenix/docs/html/stock_items.html
+    - https://wxpython.org/Phoenix/docs/html/wx.ArtProvider.html
 
 - Wiki: https://wiki.wxpython.org/
 
