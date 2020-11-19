@@ -8,6 +8,7 @@ This is just to educate myself, nothing here has any real sense.
 from datetime import date
 from datetime import datetime
 import json
+import matplotlib as mpl
 import urllib.request
 import wx
 import wxMatPlotLib
@@ -445,6 +446,7 @@ class MainWindow(wx.Frame):
     if self.toolbar.GetToolState(self.toolSE_ID): plot.gca().plot(*self.getTimeseries('Sweden', observable), label = 'Sweden', linewidth = lw)
     if self.toolbar.GetToolState(self.toolSK_ID): plot.gca().plot(*self.getTimeseries('Slovakia', observable), label = 'Slovakia', linewidth = lw)
     if self.toolbar.GetToolState(self.toolGB_ID): plot.gca().plot(*self.getTimeseries('United Kingdom', observable), label = 'United Kingdom', linewidth = lw)
+    plot.gca().get_yaxis().set_major_formatter(mpl.ticker.FuncFormatter(lambda x, p: format(int(x), ',').replace(',', ' ')))
     plot.gca().legend(loc = 2)
     return(plot)
 
