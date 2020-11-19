@@ -5,10 +5,12 @@ Nonsensical Python GUI project using wxPython
 This is just to educate myself, nothing here has any real sense.
 """
 
+from datetime import date
 from datetime import datetime
 import json
 import urllib.request
 import wx
+import wxMatPlotLib
 
 
 class MainWindow(wx.Frame):
@@ -25,7 +27,7 @@ class MainWindow(wx.Frame):
     Constructor
     """
 
-    super().__init__(parent = None, title = "Hello World Window Title", size = wx.Size(900, 300))
+    super().__init__(parent = None, title = "Hello World Window Title", size = wx.Size(900, 600))
     self.SetIcon(wx.Icon("graphics/Signal-Uncapped-t0obs.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
     # self.Maximize(True)
     # self.ShowFullScreen(True)
@@ -94,9 +96,9 @@ class MainWindow(wx.Frame):
 
     self.CreateStatusBar()
 
-    # text control in the centre of the frame
-
-    self.textControl = wx.TextCtrl(self, size = wx.Size(500, 100), style=wx.TE_MULTILINE)
+    # matplotlib plot(s) in the centre of the frame
+    # self.plot = wxMatPlotLib.Plot(self)
+    self.plotNotebook = wxMatPlotLib.PlotNotebook(self)
 
 
   def bindUI(self):
@@ -171,8 +173,59 @@ class MainWindow(wx.Frame):
         return
 
       # do something with the data
-      print(len(jsonData['Afghanistan']))
-      print(jsonData['Afghanistan'][300])
+
+      # simple version - just one individual plot
+      # self.plot.figure.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan'), label = 'Afghanistan')
+      # self.plot.figure.gca().plot(*self.getTimeseries(jsonData, 'Germany'), label = 'Germany')
+      # self.plot.figure.gca().plot(*self.getTimeseries(jsonData, 'Colombia'), label = 'Colombia')
+      # self.plot.figure.gca().plot(*self.getTimeseries(jsonData, 'Mexico'), label = 'Mexico')
+      # self.plot.figure.gca().legend(loc = 2)
+      # self.plot.canvas.draw()
+
+      # more interesting - a notebook with different plots in different tabs
+      plotConfirmed = self.plotNotebook.add("Confirmed")
+      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan'), label = 'Afghanistan')
+      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Germany'), label = 'Germany')
+      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Colombia'), label = 'Colombia')
+      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Mexico'), label = 'Mexico')
+      plotConfirmed.gca().legend(loc = 2)
+      plotDeaths = self.plotNotebook.add("Deaths")
+      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan', observable = 'deaths'), label = 'Afghanistan')
+      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Germany', observable = 'deaths'), label = 'Germany')
+      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Colombia', observable = 'deaths'), label = 'Colombia')
+      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Mexico', observable = 'deaths'), label = 'Mexico')
+      plotDeaths.gca().legend(loc = 2)
+      plotRecovered = self.plotNotebook.add("Recovered")
+      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan', observable = 'recovered'), label = 'Afghanistan')
+      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Germany', observable = 'recovered'), label = 'Germany')
+      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Colombia', observable = 'recovered'), label = 'Colombia')
+      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Mexico', observable = 'recovered'), label = 'Mexico')
+      plotRecovered.gca().legend(loc = 2)
+
+
+  def getTimeseries(self, data, country, observable = 'confirmed'):
+    """
+    Get the COVID-19 timeseries of a certain observable for a certain country
+
+    :param data: Dataset containing the COVID-19 data
+    :type data: JSON object
+    :param country: Country whose timeseries should be returned
+    :type country: string
+    :param observable: Quantity of interest.
+                       Must be one of (``confirmed``, ``recovered``, ``deaths``).
+    :type observable: string
+
+    :returns: Tuple (x, y) of the x and y values, which themselves are lists.
+              The tuple (x, y) can be unpacked with a preceding asterisk, ``*(x, y)``, when passing it to :mod:`matplotlib`'s plot function.
+    """
+
+    x = []
+    y = []
+    for datapoint in data[country]:
+      dateString = datapoint['date'].split('-')
+      x.append(date(int(dateString[0]), int(dateString[1]), int(dateString[2])))
+      y.append(datapoint[observable])
+    return(x, y)
 
 
   def menuFileLangEn_onClick(self, event):

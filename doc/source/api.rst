@@ -16,3 +16,13 @@ This is the documentation of the source code, auto-generated from the docstrings
    :private-members:
    :special-members:
    :undoc-members:
+
+
+:mod:`wxMatPlotLib`
+===================
+
+.. automodule:: wxMatPlotLib
+   :members:
+   :private-members:
+   :special-members:
+   :undoc-members:

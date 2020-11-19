@@ -148,6 +148,15 @@ In the active environment, do
 
 
 
+matplotlib
+----------
+
+.. code:: bash
+
+  (env) $ pip install matplotlib
+
+
+
 Build and Run
 =============
 
