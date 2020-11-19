@@ -27,7 +27,7 @@ class MainWindow(wx.Frame):
     Constructor
     """
 
-    super().__init__(parent = None, title = "Hello World Window Title", size = wx.Size(900, 600))
+    super().__init__(parent = None, title = "COVID-19 Data Plotter", size = wx.Size(1150, 800))
     self.SetIcon(wx.Icon("graphics/Signal-Uncapped-t0obs.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
     # self.Maximize(True)
     # self.ShowFullScreen(True)
@@ -41,32 +41,49 @@ class MainWindow(wx.Frame):
   def generateUI(self):
     """
     Generate the GUI
+
+    For the country flags shown in the buttons that select / deselect a country from the plots, besides the regular flag bitmap another bitmap is needed which is greyed out and shown when the button is disabled. These greyed-out bitmaps are derived from the regular bitmaps using GIMP with the following manipulations:
+
+    ..    include:: <isonum.txt>
+    - Colors |rarr| Brightness-Contrast |rarr| Contrast = -60
+    - Colors |rarr| Hue-Saturation |rarr| Saturation = -60
+
     """
 
     # program menubar at the top of the frame
     # list of standard IDs which lead to small icons in the menu: https://wxpython.org/Phoenix/docs/html/wx.StandardID.enumeration.html
 
-    menuFilePaste = wx.Menu()
-    menuFilePaste.Append(id = wx.ID_PASTE, item = "with &format", helpString = "Paste string including formatting", kind = wx. ITEM_RADIO)
-    menuFilePaste.Append(id = wx.ID_ANY, item = "witho&ut format\tCtrl+U", helpString = "Paste string without formatting", kind = wx. ITEM_RADIO)
+    menuFileCountries = wx.Menu()
+    self.menuFileAF = menuFileCountries.Append(id = wx.ID_ANY, item = "Afghanistan", kind = wx.ITEM_CHECK)
+    self.menuFileCO = menuFileCountries.Append(id = wx.ID_ANY, item = "Colombia", kind = wx.ITEM_CHECK)
+    self.menuFileCZ = menuFileCountries.Append(id = wx.ID_ANY, item = "Czechia", kind = wx.ITEM_CHECK)
+    self.menuFileFR = menuFileCountries.Append(id = wx.ID_ANY, item = "France", kind = wx.ITEM_CHECK)
+    self.menuFileDE = menuFileCountries.Append(id = wx.ID_ANY, item = "Germany", kind = wx.ITEM_CHECK)
+    self.menuFileGR = menuFileCountries.Append(id = wx.ID_ANY, item = "Greece", kind = wx.ITEM_CHECK)
+    self.menuFileMX = menuFileCountries.Append(id = wx.ID_ANY, item = "Mexico", kind = wx.ITEM_CHECK)
+    self.menuFileSK = menuFileCountries.Append(id = wx.ID_ANY, item = "Slovakia", kind = wx.ITEM_CHECK)
+    self.menuFileES = menuFileCountries.Append(id = wx.ID_ANY, item = "Spain", kind = wx.ITEM_CHECK)
+    self.menuFileSE = menuFileCountries.Append(id = wx.ID_ANY, item = "Sweden", kind = wx.ITEM_CHECK)
+    self.menuFileGB = menuFileCountries.Append(id = wx.ID_ANY, item = "United Kingdom", kind = wx.ITEM_CHECK)
+    menuFileCountries.AppendSeparator()
+    self.menuFileNone = menuFileCountries.Append(id = wx.ID_ANY, item = "Select &none\tCtrl+N")
+    self.menuFileAll = menuFileCountries.Append(id = wx.ID_ANY, item = "Select &all\tCtrl+A")
 
     menuFileLang = wx.Menu()
     self.menuFileLangEn = menuFileLang.Append(id = wx.ID_ANY, item = "&English\tCtrl+E", helpString = "Show interface in English", kind = wx.ITEM_RADIO)
     self.menuFileLangDe = menuFileLang.Append(id = wx.ID_ANY, item = "&German\tCtrl+G", helpString = "Show interface in German", kind = wx.ITEM_RADIO)
 
     menuFile = wx.Menu()
-    self.menuFileNew = menuFile.Append(id = wx.ID_NEW, item = "New file\tCtrl+N", helpString = "Create a new file")
-    self.menuFileDownload = menuFile.Append(id = wx.ID_DOWN, item = "Download\tCtrl+D", helpString = "Download JSON data file from the internet")
-    self.menuFileOpen = menuFile.Append(id = wx.ID_OPEN, item = "Open", helpString = "Open local JSON data file")
+    self.menuFileDownload = menuFile.Append(id = wx.ID_DOWN, item = "&Download\tCtrl+D", helpString = "Download JSON data file from the internet")
+    self.menuFileOpen = menuFile.Append(id = wx.ID_OPEN, item = "&Open", helpString = "Open local JSON data file")
+    menuFile.Append(id = wx.ID_ANY, item = "&Countries", subMenu = menuFileCountries)
     menuFile.AppendSeparator()
-    menuFile.Append(id = wx.ID_ANY, item = "Toggle something", helpString = "This is a toggle menu item", kind = wx.ITEM_CHECK)
-    menuFile.Append(id = wx.ID_ANY, item = "&Paste", subMenu = menuFilePaste, helpString = "Paste string")
     menuFile.Append(id = wx.ID_ANY, item = "&Language", subMenu = menuFileLang, helpString = "Interface language")
     menuFile.AppendSeparator()
     menuFile.Append(wx.ID_EXIT, "E&xit", " Terminate the program")
 
     menuHelp = wx.Menu()
-    self.menuHelpAbout = menuHelp.Append(id = wx.ID_ABOUT, item = "&About\tCtrl+A", helpString = "Information about this program", kind =  wx.ITEM_NORMAL)
+    self.menuHelpAbout = menuHelp.Append(id = wx.ID_ABOUT, item = "A&bout\tCtrl+B", helpString = "Information about this program", kind =  wx.ITEM_NORMAL)
 
     menubar = wx.MenuBar()
     menubar.Append(menuFile, "&File")
@@ -79,21 +96,45 @@ class MainWindow(wx.Frame):
     self.toolOpenID = 7
     self.toolLangEnID = 5
     self.toolLangDeID = 6
+    self.toolAF_ID = 20
+    self.toolCO_ID = 21
+    self.toolCZ_ID = 22
+    self.toolDE_ID = 23
+    self.toolES_ID = 24
+    self.toolFR_ID = 25
+    self.toolGB_ID = 26
+    self.toolGR_ID = 27
+    self.toolMX_ID = 28
+    self.toolSE_ID = 30
+    self.toolSK_ID = 29
+    self.toolNone_ID = 31
+    self.toolAll_ID = 32
     self.toolbar = self.CreateToolBar(style = wx.TB_HORZ_TEXT)
-    self.toolNew = self.toolbar.AddTool(toolId = 1, label = "New", bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_NEW), shortHelp = "Create new file (Ctrl+N)")
     self.toolDownload = self.toolbar.AddTool(toolId = self.toolDownloadID, label = "Download", bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_GO_DOWN), shortHelp = "Download JSON data file from the internet (Ctrl+D)")
     self.toolOpen = self.toolbar.AddTool(toolId = self.toolOpenID, label = "Open", bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_FILE_OPEN), shortHelp = "Open local JSON data file (Ctrl+O)")
     self.toolbar.AddSeparator()
-    self.toolbar.AddTool(toolId = 2, label = "Toggle somthing", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Toggle somthing", kind = wx.ITEM_CHECK)
-    toolCheck = self.toolbar.AddTool(toolId = 3, label = "Paste with format", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Check something", kind = wx.ITEM_RADIO)
-    toolCheck2 = self.toolbar.AddTool(toolId = 4, label = "Paste without format", bitmap = wx.Bitmap("graphics/complicatedMerged_Var2_noLabel_30pix.bmp"), shortHelp = "Check something", kind = wx.ITEM_RADIO)
+    self.toolAF = self.toolbar.AddTool(toolId = self.toolAF_ID, label = "AF", bitmap = wx.Bitmap("graphics/flag_AF_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_AF_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Afghanistan", longHelp = "Include/exclude Afghanistan in/from timeseries plotting")
+    self.toolCO = self.toolbar.AddTool(toolId = self.toolCO_ID, label = "CO", bitmap = wx.Bitmap("graphics/flag_CO_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_CO_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Colombia", longHelp = "Include/exclude Colombia in/from timeseries plotting")
+    self.toolCZ = self.toolbar.AddTool(toolId = self.toolCZ_ID, label = "CZ", bitmap = wx.Bitmap("graphics/flag_CZ_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_CZ_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Czechia", longHelp = "Include/exclude Czechia in/from timeseries plotting")
+    self.toolDE = self.toolbar.AddTool(toolId = self.toolDE_ID, label = "DE", bitmap = wx.Bitmap("graphics/flag_DE_33x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_DE_33x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Germany", longHelp = "Include/exclude Germany in/from timeseries plotting")
+    self.toolES = self.toolbar.AddTool(toolId = self.toolES_ID, label = "ES", bitmap = wx.Bitmap("graphics/flag_ES_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_ES_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Spain", longHelp = "Include/exclude Spain in/from timeseries plotting")
+    self.toolFR = self.toolbar.AddTool(toolId = self.toolFR_ID, label = "FR", bitmap = wx.Bitmap("graphics/flag_FR_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_FR_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "France", longHelp = "Include/exclude France in/from timeseries plotting")
+    self.toolGB = self.toolbar.AddTool(toolId = self.toolGB_ID, label = "GB", bitmap = wx.Bitmap("graphics/flag_GB_40x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_GB_40x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "United Kingdom", longHelp = "Include/exclude United Kingdom in/from timeseries plotting")
+    self.toolGR = self.toolbar.AddTool(toolId = self.toolGR_ID, label = "GR", bitmap = wx.Bitmap("graphics/flag_GR_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_GR_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Greece", longHelp = "Include/exclude Greece in/from timeseries plotting")
+    self.toolMX = self.toolbar.AddTool(toolId = self.toolMX_ID, label = "MX", bitmap = wx.Bitmap("graphics/flag_MX_35x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_MX_35x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Mexiko", longHelp = "Include/exclude Mexico in/from timeseries plotting")
+    self.toolSE = self.toolbar.AddTool(toolId = self.toolSE_ID, label = "SE", bitmap = wx.Bitmap("graphics/flag_SE_32x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_SE_32x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Sweden", longHelp = "Include/exclude Sweden in/from timeseries plotting")
+    self.toolSK = self.toolbar.AddTool(toolId = self.toolSK_ID, label = "SK", bitmap = wx.Bitmap("graphics/flag_SK_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_SK_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = "Slovakia", longHelp = "Include/exclude Slovakia in/from timeseries plotting")
+    self.toolNone = self.toolbar.AddTool(toolId = self.toolNone_ID, label = "none  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), bmpDisabled = wx.Bitmap("graphics/transparent_1x1.bmp"), kind = wx.ITEM_NORMAL, shortHelp = "no country", longHelp = "Exclude all countries from timeseries plotting")
+    self.toolAll = self.toolbar.AddTool(toolId = self.toolAll_ID, label = "all  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), bmpDisabled = wx.Bitmap("graphics/transparent_1x1.bmp"), kind = wx.ITEM_NORMAL, shortHelp = "all countries", longHelp = "Include all countries in timeseries plotting")
     self.toolbar.AddSeparator()
-    self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en", bitmap = wx.Bitmap("graphics/lang_en_32x16.bmp"), shortHelp = "English", kind = wx.ITEM_RADIO)
-    self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de", bitmap = wx.Bitmap("graphics/lang_de_27x16.bmp"), shortHelp = "German", kind = wx.ITEM_RADIO)
+    self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), shortHelp = "English", kind = wx.ITEM_RADIO)
+    self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), shortHelp = "German", kind = wx.ITEM_RADIO)
     self.toolbar.Realize()
 
-    # statusbar at the bottom of the frame
+    # disable countries at startup because no json file is loaded yet
+    self.countriesEnable(False)
 
+    # statusbar at the bottom of the frame
     self.CreateStatusBar()
 
     # matplotlib plot(s) in the centre of the frame
@@ -106,27 +147,116 @@ class MainWindow(wx.Frame):
     Generate the event handling bindings
     """
 
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileNew_onClick, source = self.menuFileNew)
     self.Bind(event = wx.EVT_MENU, handler = self.download, source = self.menuFileDownload)
     self.Bind(event = wx.EVT_MENU, handler = self.open, source = self.menuFileOpen)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileAF_click, source = self.menuFileAF)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileCO_click, source = self.menuFileCO)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileCZ_click, source = self.menuFileCZ)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileDE_click, source = self.menuFileDE)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileES_click, source = self.menuFileES)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileFR_click, source = self.menuFileFR)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileGB_click, source = self.menuFileGB)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileGR_click, source = self.menuFileGR)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileMX_click, source = self.menuFileMX)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileSE_click, source = self.menuFileSE)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFileSK_click, source = self.menuFileSK)
+    self.Bind(event = wx.EVT_MENU, handler = self.countriesSelectNone, source = self.menuFileNone)
+    self.Bind(event = wx.EVT_MENU, handler = self.countriesSelectAll, source = self.menuFileAll)
     self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangEn_onClick, source = self.menuFileLangEn)
     self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangDe_onClick, source = self.menuFileLangDe)
     self.Bind(event = wx.EVT_MENU, handler = self.menuHelpAbout_onClick, source = self.menuHelpAbout)
 
-    self.Bind(event = wx.EVT_TOOL, handler = self.menuFileNew_onClick, source = self.toolNew)
     self.Bind(event = wx.EVT_TOOL, handler = self.download, source = self.toolDownload)
     self.Bind(event = wx.EVT_TOOL, handler = self.open, source = self.toolOpen)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolAF_click, source = self.toolAF)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolCO_click, source = self.toolCO)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolCZ_click, source = self.toolCZ)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolDE_click, source = self.toolDE)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolES_click, source = self.toolES)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolFR_click, source = self.toolFR)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolGB_click, source = self.toolGB)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolGR_click, source = self.toolGR)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolMX_click, source = self.toolMX)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolSE_click, source = self.toolSE)
+    self.Bind(event = wx.EVT_TOOL, handler = self.toolSK_click, source = self.toolSK)
+    self.Bind(event = wx.EVT_TOOL, handler = self.countriesSelectNone, source = self.toolNone)
+    self.Bind(event = wx.EVT_TOOL, handler = self.countriesSelectAll, source = self.toolAll)
     self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangEn_onClick, source = self.toolLangEn)
     self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangDe_onClick, source = self.toolLangDe)
-  
 
-  def menuFileNew_onClick(self, event):
-    """
-    Delete all the text in the textCtrl
-    """
 
-    self.textControl.Clear()
-  
+  # keep the toolbar buttons in sync with the file menu buttons
+
+  def menuFileAF_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolAF_ID, toggle = self.menuFileAF.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileCO_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolCO_ID, toggle = self.menuFileCO.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileCZ_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolCZ_ID, toggle = self.menuFileCZ.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileDE_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolDE_ID, toggle = self.menuFileDE.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileES_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolES_ID, toggle = self.menuFileES.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileFR_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolFR_ID, toggle = self.menuFileFR.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileGB_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolGB_ID, toggle = self.menuFileGB.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileGR_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolGR_ID, toggle = self.menuFileGR.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileMX_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolMX_ID, toggle = self.menuFileMX.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileSE_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolSE_ID, toggle = self.menuFileSE.IsChecked())
+    self.plotAllTimeseries()
+  def menuFileSK_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolSK_ID, toggle = self.menuFileSK.IsChecked())
+    self.plotAllTimeseries()
+
+  # keep the file menu buttons in sync with the toolbar buttons
+
+  def toolAF_click(self, event):
+    self.menuFileAF.Check(self.toolbar.GetToolState(self.toolAF_ID))
+    self.plotAllTimeseries()
+  def toolCO_click(self, event):
+    self.menuFileCO.Check(self.toolbar.GetToolState(self.toolCO_ID))
+    self.plotAllTimeseries()
+  def toolCZ_click(self, event):
+    self.menuFileCZ.Check(self.toolbar.GetToolState(self.toolCZ_ID))
+    self.plotAllTimeseries()
+  def toolDE_click(self, event):
+    self.menuFileDE.Check(self.toolbar.GetToolState(self.toolDE_ID))
+    self.plotAllTimeseries()
+  def toolES_click(self, event):
+    self.menuFileES.Check(self.toolbar.GetToolState(self.toolES_ID))
+    self.plotAllTimeseries()
+  def toolFR_click(self, event):
+    self.menuFileFR.Check(self.toolbar.GetToolState(self.toolFR_ID))
+    self.plotAllTimeseries()
+  def toolGB_click(self, event):
+    self.menuFileGB.Check(self.toolbar.GetToolState(self.toolGB_ID))
+    self.plotAllTimeseries()
+  def toolGR_click(self, event):
+    self.menuFileGR.Check(self.toolbar.GetToolState(self.toolGR_ID))
+    self.plotAllTimeseries()
+  def toolMX_click(self, event):
+    self.menuFileMX.Check(self.toolbar.GetToolState(self.toolMX_ID))
+    self.plotAllTimeseries()
+  def toolSE_click(self, event):
+    self.menuFileSE.Check(self.toolbar.GetToolState(self.toolSE_ID))
+    self.plotAllTimeseries()
+  def toolSK_click(self, event):
+    self.menuFileSK.Check(self.toolbar.GetToolState(self.toolSK_ID))
+    self.plotAllTimeseries()
+
 
   def download(self, event):
     """
@@ -167,12 +297,16 @@ class MainWindow(wx.Frame):
       try:
         # open JSON file, based on https://www.askpython.com/python/examples/read-a-json-file-in-python
         with open(filePath, "r") as jsonFile:
-          jsonData = json.load(jsonFile)
+          self.jsonData = json.load(jsonFile)
       except IOError:
         wx.LogError("Cannot open file '{}'".format(filePath))
         return
 
+      # enable the country buttons (they are disabled during initGUI)
+      self.countriesEnable(True)
+
       # do something with the data
+      self.plotAllTimeseries()
 
       # simple version - just one individual plot
       # self.plot.figure.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan'), label = 'Afghanistan')
@@ -182,33 +316,143 @@ class MainWindow(wx.Frame):
       # self.plot.figure.gca().legend(loc = 2)
       # self.plot.canvas.draw()
 
-      # more interesting - a notebook with different plots in different tabs
-      plotConfirmed = self.plotNotebook.add("Confirmed")
-      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan'), label = 'Afghanistan')
-      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Germany'), label = 'Germany')
-      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Colombia'), label = 'Colombia')
-      plotConfirmed.gca().plot(*self.getTimeseries(jsonData, 'Mexico'), label = 'Mexico')
-      plotConfirmed.gca().legend(loc = 2)
-      plotDeaths = self.plotNotebook.add("Deaths")
-      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan', observable = 'deaths'), label = 'Afghanistan')
-      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Germany', observable = 'deaths'), label = 'Germany')
-      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Colombia', observable = 'deaths'), label = 'Colombia')
-      plotDeaths.gca().plot(*self.getTimeseries(jsonData, 'Mexico', observable = 'deaths'), label = 'Mexico')
-      plotDeaths.gca().legend(loc = 2)
-      plotRecovered = self.plotNotebook.add("Recovered")
-      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Afghanistan', observable = 'recovered'), label = 'Afghanistan')
-      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Germany', observable = 'recovered'), label = 'Germany')
-      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Colombia', observable = 'recovered'), label = 'Colombia')
-      plotRecovered.gca().plot(*self.getTimeseries(jsonData, 'Mexico', observable = 'recovered'), label = 'Mexico')
-      plotRecovered.gca().legend(loc = 2)
+
+  def countriesEnable(self, enable):
+    """
+    Enable / disable all country buttons
+
+    :param enable: Whether countries should be enabled (clickable buttons) or disabled (buttons greyed out and unclickable)
+    :type enable: bool
+    """
+    self.menuFileAF.Enable(enable)
+    self.menuFileCO.Enable(enable)
+    self.menuFileCZ.Enable(enable)
+    self.menuFileFR.Enable(enable)
+    self.menuFileDE.Enable(enable)
+    self.menuFileGR.Enable(enable)
+    self.menuFileMX.Enable(enable)
+    self.menuFileES.Enable(enable)
+    self.menuFileSE.Enable(enable)
+    self.menuFileSK.Enable(enable)
+    self.menuFileGB.Enable(enable)
+    self.menuFileNone.Enable(enable)
+    self.menuFileAll.Enable(enable)
+    self.toolbar.EnableTool(toolId = self.toolAF_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolCO_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolCZ_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolDE_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolES_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolFR_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolGB_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolGR_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolMX_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolSE_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolSK_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolNone_ID, enable = enable)
+    self.toolbar.EnableTool(toolId = self.toolAll_ID, enable = enable)
+
+  def countriesSelectNone(self, event):
+    """
+    Deselect all coutries and update the plots
+    """
+    self.countriesSelect(select = False)
+    self.plotAllTimeseries()
+
+  def countriesSelectAll(self, event):
+    """
+    Select all countries and update the plots
+    """
+    self.countriesSelect(select = True)
+    self.plotAllTimeseries()
+
+  def countriesSelect(self, select):
+    """
+    Adjust the button state of all country buttons according to whether they should be selected or deselected
+
+    :param select: Whether all countries should be selected or deselected
+    :type select: bool
+    """
+    self.menuFileAF.Check(select)
+    self.menuFileCO.Check(select)
+    self.menuFileCZ.Check(select)
+    self.menuFileDE.Check(select)
+    self.menuFileES.Check(select)
+    self.menuFileFR.Check(select)
+    self.menuFileGB.Check(select)
+    self.menuFileGR.Check(select)
+    self.menuFileMX.Check(select)
+    self.menuFileSE.Check(select)
+    self.menuFileSK.Check(select)
+    self.toolbar.ToggleTool(toolId = self.toolAF_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolCO_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolCZ_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolDE_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolES_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolFR_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolGB_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolGR_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolMX_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolSE_ID, toggle = select)
+    self.toolbar.ToggleTool(toolId = self.toolSK_ID, toggle = select)
+  
+  def countriesActiveBool(self):
+    """
+    Determine whether at least one country is selected
+    """
+    return(self.toolbar.GetToolState(self.toolAF_ID) \
+        or self.toolbar.GetToolState(self.toolCO_ID) \
+        or self.toolbar.GetToolState(self.toolCZ_ID) \
+        or self.toolbar.GetToolState(self.toolDE_ID) \
+        or self.toolbar.GetToolState(self.toolES_ID) \
+        or self.toolbar.GetToolState(self.toolFR_ID) \
+        or self.toolbar.GetToolState(self.toolGB_ID) \
+        or self.toolbar.GetToolState(self.toolGR_ID) \
+        or self.toolbar.GetToolState(self.toolMX_ID) \
+        or self.toolbar.GetToolState(self.toolSE_ID) \
+        or self.toolbar.GetToolState(self.toolSK_ID))
 
 
-  def getTimeseries(self, data, country, observable = 'confirmed'):
+  def plotAllTimeseries(self):
+    """
+    Plot the timeseries for all observables
+    """
+    activeTab = self.plotNotebook.nb.GetPageIndex(self.plotNotebook.nb.GetCurrentPage())
+    self.plotNotebook.clear()
+    if self.countriesActiveBool():
+      plotConfirmed = self.plotTimeseries(title = "Confirmed", observable = "confirmed")
+      plotRecovered = self.plotTimeseries(title = "Recovered", observable = "recovered")
+      plotDeaths = self.plotTimeseries(title = "Deaths", observable = "deaths")
+      self.plotNotebook.nb.SetSelection(activeTab)
+
+
+  def plotTimeseries(self, title, observable):
+    """
+    Plot the timeseries of a particular observable
+
+    :param observable: Must be one of of the following: ``confirmed``, ``recovered``, ``deaths``
+    :type observable: string
+    """
+    lw = 2.5 # linewidth
+    plot = self.plotNotebook.add(title)
+    if self.toolbar.GetToolState(self.toolAF_ID): plot.gca().plot(*self.getTimeseries('Afghanistan', observable), label = 'Afghanistan', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolCO_ID): plot.gca().plot(*self.getTimeseries('Colombia', observable), label = 'Colombia', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolCZ_ID): plot.gca().plot(*self.getTimeseries('Czechia', observable), label = 'Czechia', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolFR_ID): plot.gca().plot(*self.getTimeseries('France', observable), label = 'France', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolDE_ID): plot.gca().plot(*self.getTimeseries('Germany', observable), label = 'Germany', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolGR_ID): plot.gca().plot(*self.getTimeseries('Greece', observable), label = 'Greece', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolMX_ID): plot.gca().plot(*self.getTimeseries('Mexico', observable), label = 'Mexico', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolES_ID): plot.gca().plot(*self.getTimeseries('Spain', observable), label = 'Spain', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolSE_ID): plot.gca().plot(*self.getTimeseries('Sweden', observable), label = 'Sweden', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolSK_ID): plot.gca().plot(*self.getTimeseries('Slovakia', observable), label = 'Slovakia', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolGB_ID): plot.gca().plot(*self.getTimeseries('United Kingdom', observable), label = 'United Kingdom', linewidth = lw)
+    plot.gca().legend(loc = 2)
+    return(plot)
+
+
+  def getTimeseries(self, country, observable = 'confirmed'):
     """
     Get the COVID-19 timeseries of a certain observable for a certain country
 
-    :param data: Dataset containing the COVID-19 data
-    :type data: JSON object
     :param country: Country whose timeseries should be returned
     :type country: string
     :param observable: Quantity of interest.
@@ -221,7 +465,7 @@ class MainWindow(wx.Frame):
 
     x = []
     y = []
-    for datapoint in data[country]:
+    for datapoint in self.jsonData[country]:
       dateString = datapoint['date'].split('-')
       x.append(date(int(dateString[0]), int(dateString[1]), int(dateString[2])))
       y.append(datapoint[observable])
