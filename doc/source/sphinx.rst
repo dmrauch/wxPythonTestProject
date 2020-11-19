@@ -155,3 +155,8 @@ For further details see:
 
 - autodoc: https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 - viewdoc: https://www.sphinx-doc.org/en/master/usage/extensions/viewcode.html
+
+It does not seem easily possible to generate API summary tables and put them in front of the full API documentation. Summary tables can in principle be generated with ``sphinx.ext.autosummary``, but by default, inherited members are listed, possibly blowing up the summary tables in size, and it is not easily possible to change this behaviour. Likewise, I am not sure how to mix the summary tables and the full API documentation, as is done e.g. by ``Doxygen``.
+
+- https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html
+- https://stackoverflow.com/questions/43983799/how-to-avoid-inherited-members-using-autosummary-and-custom-templates
