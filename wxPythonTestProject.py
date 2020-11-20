@@ -417,38 +417,69 @@ class MainWindow(wx.Frame):
     """
     Plot the timeseries for all observables
     """
-    activeTab = self.plotNotebook.nb.GetPageIndex(self.plotNotebook.nb.GetCurrentPage())
-    self.plotNotebook.clear()
-    if self.countriesActiveBool():
-      plotConfirmed = self.plotTimeseries(title = "Confirmed", observable = "confirmed")
-      plotRecovered = self.plotTimeseries(title = "Recovered", observable = "recovered")
-      plotDeaths = self.plotTimeseries(title = "Deaths", observable = "deaths")
-      self.plotNotebook.nb.SetSelection(activeTab)
+    if not self.countriesActiveBool():
+      self.plotNotebook.clear()
+      return
+
+    if self.plotNotebook.nb.GetPageCount() == 0:
+      self.plotConfirmed = self.plotAddTimeseries(observable = "confirmed")
+      self.plotRecovered = self.plotAddTimeseries(observable = "recovered")
+      self.plotDeaths = self.plotAddTimeseries(observable = "deaths")
+    else:
+      self.plotUpdateTimeseries(plot = self.plotConfirmed, observable = "confirmed")
+      self.plotUpdateTimeseries(plot = self.plotRecovered, observable = "recovered")
+      self.plotUpdateTimeseries(plot = self.plotDeaths, observable = "deaths")
 
 
-  def plotTimeseries(self, title, observable):
+  def plotAddTimeseries(self, observable):
     """
-    Plot the timeseries of a particular observable
+    Create a new :class:`wxMatPlotLib.PlotNotebook` tab and plot the timeseries of a particular observable in it
 
     :param observable: Must be one of of the following: ``confirmed``, ``recovered``, ``deaths``
     :type observable: string
     """
-    lw = 2.5 # linewidth
-    plot = self.plotNotebook.add(title)
-    if self.toolbar.GetToolState(self.toolAF_ID): plot.gca().plot(*self.getTimeseries('Afghanistan', observable), label = 'Afghanistan', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolCO_ID): plot.gca().plot(*self.getTimeseries('Colombia', observable), label = 'Colombia', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolCZ_ID): plot.gca().plot(*self.getTimeseries('Czechia', observable), label = 'Czechia', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolFR_ID): plot.gca().plot(*self.getTimeseries('France', observable), label = 'France', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolDE_ID): plot.gca().plot(*self.getTimeseries('Germany', observable), label = 'Germany', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolGR_ID): plot.gca().plot(*self.getTimeseries('Greece', observable), label = 'Greece', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolMX_ID): plot.gca().plot(*self.getTimeseries('Mexico', observable), label = 'Mexico', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolES_ID): plot.gca().plot(*self.getTimeseries('Spain', observable), label = 'Spain', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolSE_ID): plot.gca().plot(*self.getTimeseries('Sweden', observable), label = 'Sweden', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolSK_ID): plot.gca().plot(*self.getTimeseries('Slovakia', observable), label = 'Slovakia', linewidth = lw)
-    if self.toolbar.GetToolState(self.toolGB_ID): plot.gca().plot(*self.getTimeseries('United Kingdom', observable), label = 'United Kingdom', linewidth = lw)
-    plot.gca().get_yaxis().set_major_formatter(mpl.ticker.FuncFormatter(lambda x, p: format(int(x), ',').replace(',', ' ')))
-    plot.gca().legend(loc = 2)
+    plot = self.plotNotebook.add(observable.capitalize())
+    self.plotTimeseries(plot, observable)
     return(plot)
+  
+  def plotUpdateTimeseries(self, plot, observable):
+    """
+    Clear the figure in an existing :class:`wxMatPlotLib.PlotNotebook` tab and replot the timeseries of a particular observable in it
+
+    This is necessary when the set of selected countries changes.
+
+    :param plot: The plot that is to be updated
+    :type plot: :class:`wxMatPlotLib.Plot`
+    :param observable: Must be one of of the following: ``confirmed``, ``recovered``, ``deaths``
+    :type observable: string
+    """
+    plot.figure.clear()
+    self.plotTimeseries(plot, observable)
+    plot.canvas.draw()
+  
+  def plotTimeseries(self, plot, observable):
+    """
+    Plot the timeseries of a given observable onto given plot
+
+    :param plot: The plot onto which the timeseries is to be plotted
+    :type plot: :class:`wxMatPlotLib.Plot`
+    :param observable: Must be one of of the following: ``confirmed``, ``recovered``, ``deaths``
+    :type observable: string
+    """
+    lw = 2.5 # linewidth
+    if self.toolbar.GetToolState(self.toolAF_ID): plot.figure.gca().plot(*self.getTimeseries('Afghanistan', observable), label = 'Afghanistan', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolCO_ID): plot.figure.gca().plot(*self.getTimeseries('Colombia', observable), label = 'Colombia', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolCZ_ID): plot.figure.gca().plot(*self.getTimeseries('Czechia', observable), label = 'Czechia', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolFR_ID): plot.figure.gca().plot(*self.getTimeseries('France', observable), label = 'France', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolDE_ID): plot.figure.gca().plot(*self.getTimeseries('Germany', observable), label = 'Germany', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolGR_ID): plot.figure.gca().plot(*self.getTimeseries('Greece', observable), label = 'Greece', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolMX_ID): plot.figure.gca().plot(*self.getTimeseries('Mexico', observable), label = 'Mexico', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolES_ID): plot.figure.gca().plot(*self.getTimeseries('Spain', observable), label = 'Spain', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolSE_ID): plot.figure.gca().plot(*self.getTimeseries('Sweden', observable), label = 'Sweden', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolSK_ID): plot.figure.gca().plot(*self.getTimeseries('Slovakia', observable), label = 'Slovakia', linewidth = lw)
+    if self.toolbar.GetToolState(self.toolGB_ID): plot.figure.gca().plot(*self.getTimeseries('United Kingdom', observable), label = 'United Kingdom', linewidth = lw)
+    plot.figure.gca().get_yaxis().set_major_formatter(mpl.ticker.FuncFormatter(lambda x, p: format(int(x), ',').replace(',', ' ')))
+    plot.figure.gca().legend(loc = 2)
 
 
   def getTimeseries(self, country, observable = 'confirmed'):

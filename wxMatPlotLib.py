@@ -51,4 +51,9 @@ class PlotNotebook(wx.Panel):
   def add(self, name="plot"):
     page = Plot(self.nb, interactive=self.interactive)
     self.nb.AddPage(page, name)
-    return page.figure
+    # return page.figure
+    return page
+
+  def clear(self):
+    while self.nb.GetPageCount() > 0:
+      self.nb.DeletePage(0)
