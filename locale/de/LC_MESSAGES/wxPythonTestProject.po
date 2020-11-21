@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-11-20 18:41+CET\n"
+"POT-Creation-Date: 2020-11-21 14:05+CET\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,60 +15,49 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: wxPythonTestProject.py:62 wxPythonTestProject.py:121
-#: wxPythonTestProject.py:474
-msgid "Afghanistan"
-msgstr "Afghanistan"
+#: wxPythonTestProject.py:62 wxPythonTestProject.py:474
+msgid "AF / Afghanistan"
+msgstr "AF / Afghanistan"
 
-#: wxPythonTestProject.py:63 wxPythonTestProject.py:122
-#: wxPythonTestProject.py:475
-msgid "Colombia"
-msgstr "Kolumbien"
+#: wxPythonTestProject.py:63 wxPythonTestProject.py:475
+msgid "CO / Colombia"
+msgstr "CO / Kolumbien"
 
-#: wxPythonTestProject.py:64 wxPythonTestProject.py:123
-#: wxPythonTestProject.py:476
-msgid "Czechia"
-msgstr "Tschechien"
+#: wxPythonTestProject.py:64 wxPythonTestProject.py:476
+msgid "CZ / Czechia"
+msgstr "CZ / Tschechien"
 
-#: wxPythonTestProject.py:65 wxPythonTestProject.py:126
-#: wxPythonTestProject.py:477
-msgid "France"
-msgstr "Frankreich"
+#: wxPythonTestProject.py:65 wxPythonTestProject.py:477
+msgid "DE / Germany"
+msgstr "DE / Deutschland"
 
-#: wxPythonTestProject.py:66 wxPythonTestProject.py:124
-#: wxPythonTestProject.py:478
-msgid "Germany"
-msgstr "Deutschland"
+#: wxPythonTestProject.py:66 wxPythonTestProject.py:478
+msgid "ES / Spain"
+msgstr "ES / Spanien"
 
-#: wxPythonTestProject.py:67 wxPythonTestProject.py:128
-#: wxPythonTestProject.py:479
-msgid "Greece"
-msgstr "Griechenland"
+#: wxPythonTestProject.py:67 wxPythonTestProject.py:479
+msgid "FR / France"
+msgstr "FR / Frankreich"
 
-#: wxPythonTestProject.py:68 wxPythonTestProject.py:129
-#: wxPythonTestProject.py:480
-msgid "Mexico"
-msgstr "Mexiko"
+#: wxPythonTestProject.py:68 wxPythonTestProject.py:480
+msgid "GB / United Kingdom"
+msgstr "GB / Vereinigtes Königreich"
 
-#: wxPythonTestProject.py:69 wxPythonTestProject.py:131
-#: wxPythonTestProject.py:483
-msgid "Slovakia"
-msgstr "Slowakei"
+#: wxPythonTestProject.py:69 wxPythonTestProject.py:481
+msgid "GR / Greece"
+msgstr "GR / Griechenland"
 
-#: wxPythonTestProject.py:70 wxPythonTestProject.py:125
-#: wxPythonTestProject.py:481
-msgid "Spain"
-msgstr "Spanien"
+#: wxPythonTestProject.py:70 wxPythonTestProject.py:482
+msgid "MX / Mexico"
+msgstr "MX / Mexiko"
 
-#: wxPythonTestProject.py:71 wxPythonTestProject.py:130
-#: wxPythonTestProject.py:482
-msgid "Sweden"
-msgstr "Schweden"
+#: wxPythonTestProject.py:71 wxPythonTestProject.py:483
+msgid "SE / Sweden"
+msgstr "SE / Schweden"
 
-#: wxPythonTestProject.py:72 wxPythonTestProject.py:127
-#: wxPythonTestProject.py:484
-msgid "United Kingdom"
-msgstr "Vereinigtes Königreich"
+#: wxPythonTestProject.py:72 wxPythonTestProject.py:484
+msgid "SK / Slovakia"
+msgstr "SK / Slowakei"
 
 #: wxPythonTestProject.py:74
 msgid "Select &none\tCtrl+N"
@@ -163,16 +152,32 @@ msgid "Open local JSON data file (Ctrl+O)"
 msgstr "Lokale JSON-Daten-Datei öffnen (Ctrl+O)"
 
 #: wxPythonTestProject.py:121
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+#: wxPythonTestProject.py:121
 msgid "Include/exclude Afghanistan in/from timeseries plotting"
 msgstr "Afghanistan im/vom Darstellen der Zeitreihen ein/ausschließen"
+
+#: wxPythonTestProject.py:122
+msgid "Colombia"
+msgstr "Kolumbien"
 
 #: wxPythonTestProject.py:122
 msgid "Include/exclude Colombia in/from timeseries plotting"
 msgstr "Kolumbien im/vom Darstellen der Zeitreihen ein/ausschließen"
 
 #: wxPythonTestProject.py:123
+msgid "Czechia"
+msgstr "Tschechien"
+
+#: wxPythonTestProject.py:123
 msgid "Include/exclude Czechia in/from timeseries plotting"
 msgstr "Tschechien im/vom Darstellen der Zeitreihen ein/ausschließen"
+
+#: wxPythonTestProject.py:124
+msgid "Germany"
+msgstr "Deutschland"
 
 #: wxPythonTestProject.py:124
 msgid "Include/exclude Germany in/from timeseries plotting"
@@ -182,6 +187,14 @@ msgstr "Deutschland im/vom Darstellen der Zeitreihen ein/ausschließen"
 msgid "Include/exclude Spain in/from timeseries plotting"
 msgstr "Spanien im/vom Darstellen der Zeitreihen ein/ausschließen"
 
+#: wxPythonTestProject.py:125
+msgid "Spain"
+msgstr "Spanien"
+
+#: wxPythonTestProject.py:126
+msgid "France"
+msgstr "Frankreich"
+
 #: wxPythonTestProject.py:126
 msgid "Include/exclude France in/from timeseries plotting"
 msgstr "Frankreich im/vom Darstellen der Zeitreihen ein/ausschließen"
@@ -189,6 +202,14 @@ msgstr "Frankreich im/vom Darstellen der Zeitreihen ein/ausschließen"
 #: wxPythonTestProject.py:127
 msgid "Include/exclude United Kingdom in/from timeseries plotting"
 msgstr "Vereinigtes Königreich im/vom Darstellen der Zeitreihen ein/ausschließen"
+
+#: wxPythonTestProject.py:127
+msgid "United Kingdom"
+msgstr "Vereinigtes Königreich"
+
+#: wxPythonTestProject.py:128
+msgid "Greece"
+msgstr "Griechenland"
 
 #: wxPythonTestProject.py:128
 msgid "Include/exclude Greece in/from timeseries plotting"
@@ -198,13 +219,25 @@ msgstr "Griechenland im/vom Darstellen der Zeitreihen ein/ausschließen"
 msgid "Include/exclude Mexico in/from timeseries plotting"
 msgstr "Mexiko im/vom Darstellen der Zeitreihen ein/ausschließen"
 
+#: wxPythonTestProject.py:129
+msgid "Mexico"
+msgstr "Mexiko"
+
 #: wxPythonTestProject.py:130
 msgid "Include/exclude Sweden in/from timeseries plotting"
 msgstr "Schweden im/vom Darstellen der Zeitreihen ein/ausschließen"
 
+#: wxPythonTestProject.py:130
+msgid "Sweden"
+msgstr "Schweden"
+
 #: wxPythonTestProject.py:131
 msgid "Include/exclude Slovakia in/from timeseries plotting"
 msgstr "Slovakei im/vom Darstellen der Zeitreihen ein/ausschließen"
+
+#: wxPythonTestProject.py:131
+msgid "Slovakia"
+msgstr "Slowakei"
 
 #: wxPythonTestProject.py:132
 msgid "Exclude all countries from timeseries plotting (Ctrl+N)"
