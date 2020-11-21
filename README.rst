@@ -157,6 +157,27 @@ matplotlib
 
 
 
+Development
+===========
+
+The creation of a translation factors into two steps: Whenever there is an update to the labels and texts shown in the GUI,
+
+.. code:: bash
+
+  make pot
+
+creates the file ``locale/wxPythonTestProject.pot``. This file has to be copied into the internationalisation folder for a specific language and renamed, e.g. ``locale/de/LC_MESSAGES/wxPythonTestProject.po``. Now, the concrete translations of the expressions in lines beginning with ``msgid`` can be added to the lines starting with ``msgstr``. Finally,
+
+.. code:: bash
+
+  make mo
+
+will create the compiled internationalisation files, e.g. ``locale/de/LC_MESSAGES/wxPythonTestProject.mo``.
+
+.. note:: Make sure that ``charset=UTF-8`` is set in the ``.po`` files.
+
+
+
 Build and Run
 =============
 

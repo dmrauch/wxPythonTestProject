@@ -1,5 +1,7 @@
 doc/build
 env
+locale/wxPythonTestProject.pot
+locale/*/LC_MESSAGES/wxPythonTestProject.mo
 __pycache__
 
 .vscode
