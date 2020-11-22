@@ -5,6 +5,7 @@ Nonsensical Python GUI project using wxPython
 This is just to educate myself, nothing here has any real sense.
 """
 
+import builtins
 from datetime import date
 from datetime import datetime
 import gettext
@@ -14,6 +15,9 @@ import os
 import urllib.request
 import wx
 import wxMatPlotLib
+
+
+builtins.__dict__['_'] = wx.GetTranslation
 
 
 class MainWindow(wx.Frame):

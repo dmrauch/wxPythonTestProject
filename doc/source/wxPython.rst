@@ -54,7 +54,10 @@ The essence of further modifications to the source code is:
 
 .. code:: python
 
+  # at the beginning of the module
+  import builtins
   import gettext
+  builtins.__dict__['_'] = wx.GetTranslation
 
   # in the constructor of the main window
   self.languages["de"] = gettext.translation(domain = self.appName, localedir = "locale", languages = ["de"])
