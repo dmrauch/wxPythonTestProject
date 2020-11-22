@@ -108,36 +108,35 @@ class MainWindow(wx.Frame):
     # program menubar at the top of the frame
     # list of standard IDs which lead to small icons in the menu: https://wxpython.org/Phoenix/docs/html/wx.StandardID.enumeration.html
 
-    menuFileCountries = wx.Menu()
-    self.menuFileAF = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"AF / Afghanistan"), kind = wx.ITEM_CHECK)
-    self.menuFileCO = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"CO / Colombia"), kind = wx.ITEM_CHECK)
-    self.menuFileCZ = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"CZ / Czechia"), kind = wx.ITEM_CHECK)
-    self.menuFileDE = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"DE / Germany"), kind = wx.ITEM_CHECK)
-    self.menuFileES = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"ES / Spain"), kind = wx.ITEM_CHECK)
-    self.menuFileFR = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"FR / France"), kind = wx.ITEM_CHECK)
-    self.menuFileGB = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"GB / United Kingdom"), kind = wx.ITEM_CHECK)
-    self.menuFileGR = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"GR / Greece"), kind = wx.ITEM_CHECK)
-    self.menuFileMX = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"MX / Mexico"), kind = wx.ITEM_CHECK)
-    self.menuFileSE = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"SE / Sweden"), kind = wx.ITEM_CHECK)
-    self.menuFileSK = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"SK / Slovakia"), kind = wx.ITEM_CHECK)
-    menuFileCountries.AppendSeparator()
-    self.menuFileNone = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"Select &none\tCtrl+N"))
-    self.menuFileAll = menuFileCountries.Append(id = wx.ID_ANY, item = _(u"Select &all\tCtrl+A"))
-
-    menuFileLang = wx.Menu()
-    self.menuFileLangEn = menuFileLang.Append(id = wx.ID_ANY, item = _("&English\tCtrl+E"), helpString = _(u"Show interface in English"), kind = wx.ITEM_RADIO)
-    self.menuFileLangDe = menuFileLang.Append(id = wx.ID_ANY, item = _("&German\tCtrl+G"), helpString = _(u"Show interface in German"), kind = wx.ITEM_RADIO)
-
     menuFile = wx.Menu()
     self.menuFileDownload = menuFile.Append(id = wx.ID_DOWN, item = _(u"&Download\tCtrl+D"), helpString = _(u"Download JSON data file from the internet"))
     self.menuFileOpen = menuFile.Append(id = wx.ID_OPEN, item = _(u"&Open"), helpString = _(u"Open local JSON data file"))
-    menuFile.Append(id = wx.ID_ANY, item = _(u"&Countries"), subMenu = menuFileCountries)
-    menuFile.AppendSeparator()
-    menuFile.Append(id = wx.ID_ANY, item = _(u"&Language"), subMenu = menuFileLang, helpString = _(u"Interface language"))
-    menuFile.AppendSeparator()
+    # menuFile.AppendSeparator()
     menuFile.Append(wx.ID_EXIT, _(u"E&xit"), _(u"Terminate the program"))
 
+    menuCountries = wx.Menu()
+    self.menuAF = menuCountries.Append(id = wx.ID_ANY, item = _(u"AF / Afghanistan"), kind = wx.ITEM_CHECK)
+    self.menuCO = menuCountries.Append(id = wx.ID_ANY, item = _(u"CO / Colombia"), kind = wx.ITEM_CHECK)
+    self.menuCZ = menuCountries.Append(id = wx.ID_ANY, item = _(u"CZ / Czechia"), kind = wx.ITEM_CHECK)
+    self.menuDE = menuCountries.Append(id = wx.ID_ANY, item = _(u"DE / Germany"), kind = wx.ITEM_CHECK)
+    self.menuES = menuCountries.Append(id = wx.ID_ANY, item = _(u"ES / Spain"), kind = wx.ITEM_CHECK)
+    self.menuFR = menuCountries.Append(id = wx.ID_ANY, item = _(u"FR / France"), kind = wx.ITEM_CHECK)
+    self.menuGB = menuCountries.Append(id = wx.ID_ANY, item = _(u"GB / United Kingdom"), kind = wx.ITEM_CHECK)
+    self.menuGR = menuCountries.Append(id = wx.ID_ANY, item = _(u"GR / Greece"), kind = wx.ITEM_CHECK)
+    self.menuMX = menuCountries.Append(id = wx.ID_ANY, item = _(u"MX / Mexico"), kind = wx.ITEM_CHECK)
+    self.menuSE = menuCountries.Append(id = wx.ID_ANY, item = _(u"SE / Sweden"), kind = wx.ITEM_CHECK)
+    self.menuSK = menuCountries.Append(id = wx.ID_ANY, item = _(u"SK / Slovakia"), kind = wx.ITEM_CHECK)
+    menuCountries.AppendSeparator()
+    self.menuCountriesNone = menuCountries.Append(id = wx.ID_ANY, item = _(u"Select &none\tCtrl+N"))
+    self.menuCountriesAll = menuCountries.Append(id = wx.ID_ANY, item = _(u"Select &all\tCtrl+A"))
+
+    menuLang = wx.Menu()
+    self.menuLangEn = menuLang.Append(id = wx.ID_ANY, item = _("&English\tCtrl+E"), helpString = _(u"Show interface in English"), kind = wx.ITEM_RADIO)
+    self.menuLangDe = menuLang.Append(id = wx.ID_ANY, item = _("&German\tCtrl+G"), helpString = _(u"Show interface in German"), kind = wx.ITEM_RADIO)
+
     menuView = wx.Menu()
+    menuView.Append(id = wx.ID_ANY, item = _(u"&Countries"), subMenu = menuCountries, helpString = _(u"Country selection for timeseries plotting"))
+    menuView.Append(id = wx.ID_ANY, item = _(u"&Language"), subMenu = menuLang, helpString = _(u"Interface language"))
     self.menuFullScreen = menuView.Append(id = wx.ID_ANY, item = _(u"&Fullscreen\tCtrl+F"), kind = wx.ITEM_CHECK, helpString = _(u"Show interface in fullscreen mode"))
 
     menuHelp = wx.Menu()
@@ -211,21 +210,21 @@ class MainWindow(wx.Frame):
 
     self.Bind(event = wx.EVT_MENU, handler = self.download, source = self.menuFileDownload)
     self.Bind(event = wx.EVT_MENU, handler = self.open, source = self.menuFileOpen)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileAF_click, source = self.menuFileAF)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileCO_click, source = self.menuFileCO)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileCZ_click, source = self.menuFileCZ)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileDE_click, source = self.menuFileDE)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileES_click, source = self.menuFileES)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileFR_click, source = self.menuFileFR)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileGB_click, source = self.menuFileGB)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileGR_click, source = self.menuFileGR)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileMX_click, source = self.menuFileMX)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileSE_click, source = self.menuFileSE)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileSK_click, source = self.menuFileSK)
-    self.Bind(event = wx.EVT_MENU, handler = self.countriesSelectNone, source = self.menuFileNone)
-    self.Bind(event = wx.EVT_MENU, handler = self.countriesSelectAll, source = self.menuFileAll)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangEn_onClick, source = self.menuFileLangEn)
-    self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangDe_onClick, source = self.menuFileLangDe)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuAF_click, source = self.menuAF)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuCO_click, source = self.menuCO)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuCZ_click, source = self.menuCZ)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuDE_click, source = self.menuDE)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuES_click, source = self.menuES)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuFR_click, source = self.menuFR)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuGB_click, source = self.menuGB)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuGR_click, source = self.menuGR)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuMX_click, source = self.menuMX)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuSE_click, source = self.menuSE)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuSK_click, source = self.menuSK)
+    self.Bind(event = wx.EVT_MENU, handler = self.countriesSelectNone, source = self.menuCountriesNone)
+    self.Bind(event = wx.EVT_MENU, handler = self.countriesSelectAll, source = self.menuCountriesAll)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuLangEn_onClick, source = self.menuLangEn)
+    self.Bind(event = wx.EVT_MENU, handler = self.menuLangDe_onClick, source = self.menuLangDe)
     self.Bind(event = wx.EVT_MENU, handler = self.fullscreen, source = self.menuFullScreen)
     self.Bind(event = wx.EVT_MENU, handler = self.menuHelpAbout_onClick, source = self.menuHelpAbout)
 
@@ -244,81 +243,81 @@ class MainWindow(wx.Frame):
     self.Bind(event = wx.EVT_TOOL, handler = self.toolSK_click, source = self.toolSK)
     self.Bind(event = wx.EVT_TOOL, handler = self.countriesSelectNone, source = self.toolNone)
     self.Bind(event = wx.EVT_TOOL, handler = self.countriesSelectAll, source = self.toolAll)
-    self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangEn_onClick, source = self.toolLangEn)
-    self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangDe_onClick, source = self.toolLangDe)
+    self.Bind(event = wx.EVT_TOOL, handler = self.menuLangEn_onClick, source = self.toolLangEn)
+    self.Bind(event = wx.EVT_TOOL, handler = self.menuLangDe_onClick, source = self.toolLangDe)
     self.Bind(event = wx.EVT_TOOL, handler = self.fullscreen, source = self.toolFullScreen)
 
 
   # keep the toolbar buttons in sync with the file menu buttons
 
-  def menuFileAF_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolAF_ID, toggle = self.menuFileAF.IsChecked())
+  def menuAF_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolAF_ID, toggle = self.menuAF.IsChecked())
     self.plotAllTimeseries()
-  def menuFileCO_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolCO_ID, toggle = self.menuFileCO.IsChecked())
+  def menuCO_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolCO_ID, toggle = self.menuCO.IsChecked())
     self.plotAllTimeseries()
-  def menuFileCZ_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolCZ_ID, toggle = self.menuFileCZ.IsChecked())
+  def menuCZ_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolCZ_ID, toggle = self.menuCZ.IsChecked())
     self.plotAllTimeseries()
-  def menuFileDE_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolDE_ID, toggle = self.menuFileDE.IsChecked())
+  def menuDE_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolDE_ID, toggle = self.menuDE.IsChecked())
     self.plotAllTimeseries()
-  def menuFileES_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolES_ID, toggle = self.menuFileES.IsChecked())
+  def menuES_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolES_ID, toggle = self.menuES.IsChecked())
     self.plotAllTimeseries()
-  def menuFileFR_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolFR_ID, toggle = self.menuFileFR.IsChecked())
+  def menuFR_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolFR_ID, toggle = self.menuFR.IsChecked())
     self.plotAllTimeseries()
-  def menuFileGB_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolGB_ID, toggle = self.menuFileGB.IsChecked())
+  def menuGB_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolGB_ID, toggle = self.menuGB.IsChecked())
     self.plotAllTimeseries()
-  def menuFileGR_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolGR_ID, toggle = self.menuFileGR.IsChecked())
+  def menuGR_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolGR_ID, toggle = self.menuGR.IsChecked())
     self.plotAllTimeseries()
-  def menuFileMX_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolMX_ID, toggle = self.menuFileMX.IsChecked())
+  def menuMX_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolMX_ID, toggle = self.menuMX.IsChecked())
     self.plotAllTimeseries()
-  def menuFileSE_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolSE_ID, toggle = self.menuFileSE.IsChecked())
+  def menuSE_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolSE_ID, toggle = self.menuSE.IsChecked())
     self.plotAllTimeseries()
-  def menuFileSK_click(self, event):
-    self.toolbar.ToggleTool(toolId = self.toolSK_ID, toggle = self.menuFileSK.IsChecked())
+  def menuSK_click(self, event):
+    self.toolbar.ToggleTool(toolId = self.toolSK_ID, toggle = self.menuSK.IsChecked())
     self.plotAllTimeseries()
 
   # keep the file menu buttons in sync with the toolbar buttons
 
   def toolAF_click(self, event):
-    self.menuFileAF.Check(self.toolbar.GetToolState(self.toolAF_ID))
+    self.menuAF.Check(self.toolbar.GetToolState(self.toolAF_ID))
     self.plotAllTimeseries()
   def toolCO_click(self, event):
-    self.menuFileCO.Check(self.toolbar.GetToolState(self.toolCO_ID))
+    self.menuCO.Check(self.toolbar.GetToolState(self.toolCO_ID))
     self.plotAllTimeseries()
   def toolCZ_click(self, event):
-    self.menuFileCZ.Check(self.toolbar.GetToolState(self.toolCZ_ID))
+    self.menuCZ.Check(self.toolbar.GetToolState(self.toolCZ_ID))
     self.plotAllTimeseries()
   def toolDE_click(self, event):
-    self.menuFileDE.Check(self.toolbar.GetToolState(self.toolDE_ID))
+    self.menuDE.Check(self.toolbar.GetToolState(self.toolDE_ID))
     self.plotAllTimeseries()
   def toolES_click(self, event):
-    self.menuFileES.Check(self.toolbar.GetToolState(self.toolES_ID))
+    self.menuES.Check(self.toolbar.GetToolState(self.toolES_ID))
     self.plotAllTimeseries()
   def toolFR_click(self, event):
-    self.menuFileFR.Check(self.toolbar.GetToolState(self.toolFR_ID))
+    self.menuFR.Check(self.toolbar.GetToolState(self.toolFR_ID))
     self.plotAllTimeseries()
   def toolGB_click(self, event):
-    self.menuFileGB.Check(self.toolbar.GetToolState(self.toolGB_ID))
+    self.menuGB.Check(self.toolbar.GetToolState(self.toolGB_ID))
     self.plotAllTimeseries()
   def toolGR_click(self, event):
-    self.menuFileGR.Check(self.toolbar.GetToolState(self.toolGR_ID))
+    self.menuGR.Check(self.toolbar.GetToolState(self.toolGR_ID))
     self.plotAllTimeseries()
   def toolMX_click(self, event):
-    self.menuFileMX.Check(self.toolbar.GetToolState(self.toolMX_ID))
+    self.menuMX.Check(self.toolbar.GetToolState(self.toolMX_ID))
     self.plotAllTimeseries()
   def toolSE_click(self, event):
-    self.menuFileSE.Check(self.toolbar.GetToolState(self.toolSE_ID))
+    self.menuSE.Check(self.toolbar.GetToolState(self.toolSE_ID))
     self.plotAllTimeseries()
   def toolSK_click(self, event):
-    self.menuFileSK.Check(self.toolbar.GetToolState(self.toolSK_ID))
+    self.menuSK.Check(self.toolbar.GetToolState(self.toolSK_ID))
     self.plotAllTimeseries()
 
 
@@ -388,19 +387,19 @@ class MainWindow(wx.Frame):
     :param enable: Whether countries should be enabled (clickable buttons) or disabled (buttons greyed out and unclickable)
     :type enable: bool
     """
-    self.menuFileAF.Enable(enable)
-    self.menuFileCO.Enable(enable)
-    self.menuFileCZ.Enable(enable)
-    self.menuFileFR.Enable(enable)
-    self.menuFileDE.Enable(enable)
-    self.menuFileGR.Enable(enable)
-    self.menuFileMX.Enable(enable)
-    self.menuFileES.Enable(enable)
-    self.menuFileSE.Enable(enable)
-    self.menuFileSK.Enable(enable)
-    self.menuFileGB.Enable(enable)
-    self.menuFileNone.Enable(enable)
-    self.menuFileAll.Enable(enable)
+    self.menuAF.Enable(enable)
+    self.menuCO.Enable(enable)
+    self.menuCZ.Enable(enable)
+    self.menuFR.Enable(enable)
+    self.menuDE.Enable(enable)
+    self.menuGR.Enable(enable)
+    self.menuMX.Enable(enable)
+    self.menuES.Enable(enable)
+    self.menuSE.Enable(enable)
+    self.menuSK.Enable(enable)
+    self.menuGB.Enable(enable)
+    self.menuCountriesNone.Enable(enable)
+    self.menuCountriesAll.Enable(enable)
     self.toolbar.EnableTool(toolId = self.toolAF_ID, enable = enable)
     self.toolbar.EnableTool(toolId = self.toolCO_ID, enable = enable)
     self.toolbar.EnableTool(toolId = self.toolCZ_ID, enable = enable)
@@ -436,17 +435,17 @@ class MainWindow(wx.Frame):
     :param select: Whether all countries should be selected or deselected
     :type select: bool
     """
-    self.menuFileAF.Check(select)
-    self.menuFileCO.Check(select)
-    self.menuFileCZ.Check(select)
-    self.menuFileDE.Check(select)
-    self.menuFileES.Check(select)
-    self.menuFileFR.Check(select)
-    self.menuFileGB.Check(select)
-    self.menuFileGR.Check(select)
-    self.menuFileMX.Check(select)
-    self.menuFileSE.Check(select)
-    self.menuFileSK.Check(select)
+    self.menuAF.Check(select)
+    self.menuCO.Check(select)
+    self.menuCZ.Check(select)
+    self.menuDE.Check(select)
+    self.menuES.Check(select)
+    self.menuFR.Check(select)
+    self.menuGB.Check(select)
+    self.menuGR.Check(select)
+    self.menuMX.Check(select)
+    self.menuSE.Check(select)
+    self.menuSK.Check(select)
     self.toolbar.ToggleTool(toolId = self.toolAF_ID, toggle = select)
     self.toolbar.ToggleTool(toolId = self.toolCO_ID, toggle = select)
     self.toolbar.ToggleTool(toolId = self.toolCZ_ID, toggle = select)
@@ -568,7 +567,7 @@ class MainWindow(wx.Frame):
     return(x, y)
 
 
-  def menuFileLangEn_onClick(self, event):
+  def menuLangEn_onClick(self, event):
     """
     Event handling function for interface switch to English
     """
@@ -577,7 +576,7 @@ class MainWindow(wx.Frame):
     self.appConfig.Flush()
     self.switchLanguage()
 
-  def menuFileLangDe_onClick(self, event):
+  def menuLangDe_onClick(self, event):
     """
     Event handling function for interface switch to English
     """
@@ -600,10 +599,10 @@ class MainWindow(wx.Frame):
     to also correctly set / toggle the one that wasn't clicked.
     """
     if self.language == wx.LANGUAGE_ENGLISH:
-      self.menuFileLangEn.Check(True)
+      self.menuLangEn.Check(True)
       self.toolbar.ToggleTool(toolId = self.toolLangEnID, toggle = True)
     elif self.language == wx.LANGUAGE_GERMAN:
-      self.menuFileLangDe.Check(True)
+      self.menuLangDe.Check(True)
       self.toolbar.ToggleTool(toolId = self.toolLangDeID, toggle = True)
 
 

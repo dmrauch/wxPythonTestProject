@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-11-22 19:00+CET\n"
+"POT-Creation-Date: 2020-11-22 19:35+CET\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,327 +15,331 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: wxPythonTestProject.py:109 wxPythonTestProject.py:521
-msgid "AF / Afghanistan"
-msgstr "AF / Afghanistan"
-
-#: wxPythonTestProject.py:110 wxPythonTestProject.py:522
-msgid "CO / Colombia"
-msgstr "CO / Kolumbien"
-
-#: wxPythonTestProject.py:111 wxPythonTestProject.py:523
-msgid "CZ / Czechia"
-msgstr "CZ / Tschechien"
-
-#: wxPythonTestProject.py:112 wxPythonTestProject.py:524
-msgid "DE / Germany"
-msgstr "DE / Deutschland"
-
-#: wxPythonTestProject.py:113 wxPythonTestProject.py:525
-msgid "ES / Spain"
-msgstr "ES / Spanien"
-
-#: wxPythonTestProject.py:114 wxPythonTestProject.py:526
-msgid "FR / France"
-msgstr "FR / Frankreich"
-
-#: wxPythonTestProject.py:115 wxPythonTestProject.py:527
-msgid "GB / United Kingdom"
-msgstr "GB / Vereinigtes Königreich"
-
-#: wxPythonTestProject.py:116 wxPythonTestProject.py:528
-msgid "GR / Greece"
-msgstr "GR / Griechenland"
-
-#: wxPythonTestProject.py:117 wxPythonTestProject.py:529
-msgid "MX / Mexico"
-msgstr "MX / Mexiko"
-
-#: wxPythonTestProject.py:118 wxPythonTestProject.py:530
-msgid "SE / Sweden"
-msgstr "SE / Schweden"
-
-#: wxPythonTestProject.py:119 wxPythonTestProject.py:531
-msgid "SK / Slovakia"
-msgstr "SK / Slowakei"
-
-#: wxPythonTestProject.py:121
-msgid "Select &none\tCtrl+N"
-msgstr "kei&nes auswählen\tCtrl+N"
-
-#: wxPythonTestProject.py:122
-msgid "Select &all\tCtrl+A"
-msgstr "&alle auswählen\tCtrl+A"
-
-#: wxPythonTestProject.py:125
-msgid "&English\tCtrl+E"
-msgstr "&Englisch\tCtrl+E"
-
-#: wxPythonTestProject.py:125
-msgid "Show interface in English"
-msgstr "Benutzeroberfläche auf Englisch anzeigen"
-
-#: wxPythonTestProject.py:126
-msgid "&German\tCtrl+G"
-msgstr "Deutsch\tCtrl+G"
-
-#: wxPythonTestProject.py:126
-msgid "Show interface in German"
-msgstr "Benutzeroberfläche auf Deutsch anzeigen"
-
-#: wxPythonTestProject.py:129
+#: wxPythonTestProject.py:112
 msgid "&Download\tCtrl+D"
 msgstr "&Herunterladen\tStrg+D"
 
-#: wxPythonTestProject.py:129
+#: wxPythonTestProject.py:112
 msgid "Download JSON data file from the internet"
 msgstr "JSON-Daten-Datei aus dem Internet herunterladen"
 
-#: wxPythonTestProject.py:130
+#: wxPythonTestProject.py:113
 msgid "&Open"
 msgstr "&Öffnen"
 
-#: wxPythonTestProject.py:130
+#: wxPythonTestProject.py:113
 msgid "Open local JSON data file"
 msgstr "Lokale JSON-Daten-Datei öffnen"
 
-#: wxPythonTestProject.py:131
-msgid "&Countries"
-msgstr "&Länder"
-
-#: wxPythonTestProject.py:133
-msgid "&Language"
-msgstr "&Sprache"
-
-#: wxPythonTestProject.py:133
-msgid "Interface language"
-msgstr "Sprache der Benutzeroberfläche"
-
-#: wxPythonTestProject.py:135
+#: wxPythonTestProject.py:115
 msgid "E&xit"
 msgstr "Be&enden"
 
-#: wxPythonTestProject.py:135
+#: wxPythonTestProject.py:115
 msgid "Terminate the program"
 msgstr "Das Programm beenden"
 
-#: wxPythonTestProject.py:137
+#: wxPythonTestProject.py:118 wxPythonTestProject.py:532
+msgid "AF / Afghanistan"
+msgstr "AF / Afghanistan"
+
+#: wxPythonTestProject.py:119 wxPythonTestProject.py:533
+msgid "CO / Colombia"
+msgstr "CO / Kolumbien"
+
+#: wxPythonTestProject.py:120 wxPythonTestProject.py:534
+msgid "CZ / Czechia"
+msgstr "CZ / Tschechien"
+
+#: wxPythonTestProject.py:121 wxPythonTestProject.py:535
+msgid "DE / Germany"
+msgstr "DE / Deutschland"
+
+#: wxPythonTestProject.py:122 wxPythonTestProject.py:536
+msgid "ES / Spain"
+msgstr "ES / Spanien"
+
+#: wxPythonTestProject.py:123 wxPythonTestProject.py:537
+msgid "FR / France"
+msgstr "FR / Frankreich"
+
+#: wxPythonTestProject.py:124 wxPythonTestProject.py:538
+msgid "GB / United Kingdom"
+msgstr "GB / Vereinigtes Königreich"
+
+#: wxPythonTestProject.py:125 wxPythonTestProject.py:539
+msgid "GR / Greece"
+msgstr "GR / Griechenland"
+
+#: wxPythonTestProject.py:126 wxPythonTestProject.py:540
+msgid "MX / Mexico"
+msgstr "MX / Mexiko"
+
+#: wxPythonTestProject.py:127 wxPythonTestProject.py:541
+msgid "SE / Sweden"
+msgstr "SE / Schweden"
+
+#: wxPythonTestProject.py:128 wxPythonTestProject.py:542
+msgid "SK / Slovakia"
+msgstr "SK / Slowakei"
+
+#: wxPythonTestProject.py:130
+msgid "Select &none\tCtrl+N"
+msgstr "kei&nes auswählen\tCtrl+N"
+
+#: wxPythonTestProject.py:131
+msgid "Select &all\tCtrl+A"
+msgstr "&alle auswählen\tCtrl+A"
+
+#: wxPythonTestProject.py:134
+msgid "&English\tCtrl+E"
+msgstr "&Englisch\tCtrl+E"
+
+#: wxPythonTestProject.py:134
+msgid "Show interface in English"
+msgstr "Benutzeroberfläche auf Englisch anzeigen"
+
+#: wxPythonTestProject.py:135
+msgid "&German\tCtrl+G"
+msgstr "Deutsch\tCtrl+G"
+
+#: wxPythonTestProject.py:135
+msgid "Show interface in German"
+msgstr "Benutzeroberfläche auf Deutsch anzeigen"
+
+#: wxPythonTestProject.py:138
+msgid "&Countries"
+msgstr "&Länder"
+
+#: wxPythonTestProject.py:138
+msgid "Country selection for timeseries plotting"
+msgstr "Auswahl der Länder für die Darstellung der Zeitreihen"
+
+#: wxPythonTestProject.py:139
+msgid "&Language"
+msgstr "&Sprache"
+
+#: wxPythonTestProject.py:139
+msgid "Interface language"
+msgstr "Sprache der Benutzeroberfläche"
+
+#: wxPythonTestProject.py:140
 msgid "&Fullscreen\tCtrl+F"
 msgstr "&Vollbildschirm\tCtrl+F"
 
-#: wxPythonTestProject.py:137
+#: wxPythonTestProject.py:140
 msgid "Show interface in fullscreen mode"
 msgstr "Benutzeroberfläche im Vollbildmodus anzeigen"
 
-#: wxPythonTestProject.py:138
+#: wxPythonTestProject.py:143
 msgid "A&bout\tCtrl+B"
 msgstr "&Über"
 
-#: wxPythonTestProject.py:138
+#: wxPythonTestProject.py:143
 msgid "Information about this program"
 msgstr "Informationen über dieses Programm"
 
-#: wxPythonTestProject.py:141
+#: wxPythonTestProject.py:146
 msgid "&File"
 msgstr "&Datei"
 
-#: wxPythonTestProject.py:144
+#: wxPythonTestProject.py:147
 msgid "&View"
 msgstr "&Ansicht"
 
-#: wxPythonTestProject.py:142
+#: wxPythonTestProject.py:148
 msgid "&Help"
 msgstr "&Hilfe"
 
-#: wxPythonTestProject.py:165
+#: wxPythonTestProject.py:172
 msgid "Download"
 msgstr "Herunterladen"
 
-#: wxPythonTestProject.py:165
+#: wxPythonTestProject.py:172
 msgid "Download JSON data file from the internet (Ctrl+D)"
 msgstr "JSON-Daten-Datei aus dem Internet herunterladen (Strg+D)"
 
-#: wxPythonTestProject.py:166
+#: wxPythonTestProject.py:173
 msgid "Open"
 msgstr "Öffnen"
 
-#: wxPythonTestProject.py:166
+#: wxPythonTestProject.py:173
 msgid "Open local JSON data file (Ctrl+O)"
 msgstr "Lokale JSON-Daten-Datei öffnen (Ctrl+O)"
 
-#: wxPythonTestProject.py:168
+#: wxPythonTestProject.py:175
 msgid "Afghanistan"
 msgstr "Afghanistan"
 
-#: wxPythonTestProject.py:168
+#: wxPythonTestProject.py:175
 msgid "Include/exclude Afghanistan in/from timeseries plotting"
 msgstr "Afghanistan im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:169
+#: wxPythonTestProject.py:176
 msgid "Colombia"
 msgstr "Kolumbien"
 
-#: wxPythonTestProject.py:169
+#: wxPythonTestProject.py:176
 msgid "Include/exclude Colombia in/from timeseries plotting"
 msgstr "Kolumbien im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:170
+#: wxPythonTestProject.py:177
 msgid "Czechia"
 msgstr "Tschechien"
 
-#: wxPythonTestProject.py:170
+#: wxPythonTestProject.py:177
 msgid "Include/exclude Czechia in/from timeseries plotting"
 msgstr "Tschechien im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:171
+#: wxPythonTestProject.py:178
 msgid "Germany"
 msgstr "Deutschland"
 
-#: wxPythonTestProject.py:171
+#: wxPythonTestProject.py:178
 msgid "Include/exclude Germany in/from timeseries plotting"
 msgstr "Deutschland im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:172
+#: wxPythonTestProject.py:179
 msgid "Include/exclude Spain in/from timeseries plotting"
 msgstr "Spanien im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:172
+#: wxPythonTestProject.py:179
 msgid "Spain"
 msgstr "Spanien"
 
-#: wxPythonTestProject.py:173
+#: wxPythonTestProject.py:180
 msgid "France"
 msgstr "Frankreich"
 
-#: wxPythonTestProject.py:173
+#: wxPythonTestProject.py:180
 msgid "Include/exclude France in/from timeseries plotting"
 msgstr "Frankreich im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:174
+#: wxPythonTestProject.py:181
 msgid "Include/exclude United Kingdom in/from timeseries plotting"
 msgstr "Vereinigtes Königreich im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:174
+#: wxPythonTestProject.py:181
 msgid "United Kingdom"
 msgstr "Vereinigtes Königreich"
 
-#: wxPythonTestProject.py:175
+#: wxPythonTestProject.py:182
 msgid "Greece"
 msgstr "Griechenland"
 
-#: wxPythonTestProject.py:175
+#: wxPythonTestProject.py:182
 msgid "Include/exclude Greece in/from timeseries plotting"
 msgstr "Griechenland im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:176
+#: wxPythonTestProject.py:183
 msgid "Include/exclude Mexico in/from timeseries plotting"
 msgstr "Mexiko im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:176
+#: wxPythonTestProject.py:183
 msgid "Mexico"
 msgstr "Mexiko"
 
-#: wxPythonTestProject.py:177
+#: wxPythonTestProject.py:184
 msgid "Include/exclude Sweden in/from timeseries plotting"
 msgstr "Schweden im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:177
+#: wxPythonTestProject.py:184
 msgid "Sweden"
 msgstr "Schweden"
 
-#: wxPythonTestProject.py:178
+#: wxPythonTestProject.py:185
 msgid "Include/exclude Slovakia in/from timeseries plotting"
 msgstr "Slovakei im/vom Darstellen der Zeitreihen ein/ausschließen"
 
-#: wxPythonTestProject.py:178
+#: wxPythonTestProject.py:185
 msgid "Slovakia"
 msgstr "Slowakei"
 
-#: wxPythonTestProject.py:179
+#: wxPythonTestProject.py:186
 msgid "Exclude all countries from timeseries plotting (Ctrl+N)"
 msgstr "Alle Länder vom Darstellen der Zeitreihen ausschließen (Ctrl+N)"
 
-#: wxPythonTestProject.py:179
+#: wxPythonTestProject.py:186
 msgid "Select no country (Ctrl+N)"
 msgstr "kein Land auswählen (Ctrl+N)"
 
-#: wxPythonTestProject.py:179
+#: wxPythonTestProject.py:186
 msgid "none  "
 msgstr "keines  "
 
-#: wxPythonTestProject.py:180
+#: wxPythonTestProject.py:187
 msgid "Include all countries in timeseries plotting (Ctrl+A)"
 msgstr "Alle Länder im Darstellen der Zeitreihen einschließen (Ctrl+A)"
 
-#: wxPythonTestProject.py:180
+#: wxPythonTestProject.py:187
 msgid "Select all countries (Ctrl+A)"
 msgstr "alle Länder auswählen (Ctrl+A)"
 
-#: wxPythonTestProject.py:180
+#: wxPythonTestProject.py:187
 msgid "all  "
 msgstr "alle  "
 
-#: wxPythonTestProject.py:182
+#: wxPythonTestProject.py:189
 msgid "English"
 msgstr "Englisch"
 
-#: wxPythonTestProject.py:183
+#: wxPythonTestProject.py:190
 msgid "German"
 msgstr "Deutsch"
 
-#: wxPythonTestProject.py:189
+#: wxPythonTestProject.py:192
 msgid "Fullscreen"
 msgstr "Vollbildschirm"
 
-#: wxPythonTestProject.py:320
+#: wxPythonTestProject.py:331
 msgid "Save JSON data file as"
 msgstr "JSON-Daten-Datei speichern unter"
 
-#: wxPythonTestProject.py:322 wxPythonTestProject.py:344
+#: wxPythonTestProject.py:333 wxPythonTestProject.py:355
 msgid "JSON files (*.json)|*.json|All files|*"
 msgstr "JSON Dateien (*.json)|*.json|Alle Dateien|*"
 
-#: wxPythonTestProject.py:330
+#: wxPythonTestProject.py:341
 msgid "Downloading COVID-19 timeseries JSON data file"
 msgstr "COVID-19 Zeitreihen-JSON-Daten-Datei wird heruntergeladen"
 
-#: wxPythonTestProject.py:332
+#: wxPythonTestProject.py:343
 msgid "Successfully downloaded COVID-19 timeseries JSON data file to '{}'"
 msgstr "COVID-19 Zeitreihen-JSON-Daten-Datei erfolgreich heruntergeladen"
 
-#: wxPythonTestProject.py:343
+#: wxPythonTestProject.py:354
 msgid "Open JSON data file"
 msgstr "JSON-Daten-Datei öffnen"
 
-#: wxPythonTestProject.py:354
+#: wxPythonTestProject.py:365
 msgid "Cannot open file '{}'"
 msgstr "Datei '{}' kann nicht geöffnet werden"
 
-#: wxPythonTestProject.py:476
+#: wxPythonTestProject.py:487
 msgid "Confirmed"
 msgstr "Bestätigt"
 
-#: wxPythonTestProject.py:477
+#: wxPythonTestProject.py:488
 msgid "Recovered"
 msgstr "Genesen"
 
-#: wxPythonTestProject.py:478
+#: wxPythonTestProject.py:489
 msgid "Deaths"
 msgstr "Verstorben"
 
-#: wxPythonTestProject.py:579
+#: wxPythonTestProject.py:590
 msgid "Please restart the program for this change to take effect"
 msgstr "Bitte starten Sie das Programm neu, damit diese Änderung in Kraft treten kann"
 
-#: wxPythonTestProject.py:628
+#: wxPythonTestProject.py:651
 msgid "A plotting tool for COVID-19 data"
 msgstr "Ein Programm zum Darstellen von COVID-19 Daten"
 
-#: wxPythonTestProject.py:628
+#: wxPythonTestProject.py:651
 msgid "About this program"
 msgstr "Über dieses Programm"
 
-#: wxPythonTestProject.py:629
+#: wxPythonTestProject.py:652
 msgid "OK"
 msgstr "In Ordnung"
 
