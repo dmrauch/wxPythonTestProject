@@ -30,13 +30,12 @@ class MainWindow(wx.Frame):
     Constructor
     """
 
-    super().__init__(parent = None, title = "COVID-19 Data Plotter", size = wx.Size(1150, 800))
+    super().__init__(parent = None, title = "COVID-19 Data Plotter", size = wx.Size(1200, 800))
 
     self.appName = os.path.split(os.path.realpath(__file__))[1].replace(".py", "")
     self.appPath = os.path.split(os.path.realpath(__file__))[0]
     self.SetIcon(wx.Icon("graphics/Signal-Uncapped-t0obs.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
     # self.Maximize(True)
-    # self.ShowFullScreen(True)
 
     self.initialiseSettings()
     self.initialiseLanguages()
@@ -134,13 +133,17 @@ class MainWindow(wx.Frame):
     menuFile.AppendSeparator()
     menuFile.Append(wx.ID_EXIT, _(u"E&xit"), _(u"Terminate the program"))
 
+    menuView = wx.Menu()
+    self.menuFullScreen = menuView.Append(id = wx.ID_ANY, item = _(u"&Fullscreen\tCtrl+F"), kind = wx.ITEM_CHECK, helpString = _(u"Show interface in fullscreen mode"))
+
     menuHelp = wx.Menu()
     self.menuHelpAbout = menuHelp.Append(id = wx.ID_ABOUT, item = _(u"A&bout\tCtrl+B"), helpString = _(u"Information about this program"), kind =  wx.ITEM_NORMAL)
 
-    menubar = wx.MenuBar()
-    menubar.Append(menuFile, _(u"&File"))
-    menubar.Append(menuHelp, _(u"&Help"))
-    self.SetMenuBar(menubar)
+    self.menubar = wx.MenuBar()
+    self.menubar.Append(menuFile, _(u"&File"))
+    self.menubar.Append(menuView, _(u"&View"))
+    self.menubar.Append(menuHelp, _(u"&Help"))
+    self.SetMenuBar(self.menubar)
 
     # toolbar at the top of the frame, just below the menubar
 
@@ -161,6 +164,7 @@ class MainWindow(wx.Frame):
     self.toolSK_ID = 29
     self.toolNone_ID = 31
     self.toolAll_ID = 32
+    self.toolFullScreenID = 33
     self.toolbar = self.CreateToolBar(style = wx.TB_HORZ_TEXT)
     self.toolDownload = self.toolbar.AddTool(toolId = self.toolDownloadID, label = _(u"Download"), bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_GO_DOWN), shortHelp = _(u"Download JSON data file from the internet (Ctrl+D)"))
     self.toolOpen = self.toolbar.AddTool(toolId = self.toolOpenID, label = _(u"Open"), bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_FILE_OPEN), shortHelp = _(u"Open local JSON data file (Ctrl+O)"))
@@ -181,6 +185,8 @@ class MainWindow(wx.Frame):
     self.toolbar.AddSeparator()
     self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), shortHelp = _(u"English"), kind = wx.ITEM_RADIO)
     self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), shortHelp = _(u"German"), kind = wx.ITEM_RADIO)
+    self.toolbar.AddSeparator()
+    self.toolFullScreen = self.toolbar.AddTool(toolId = self.toolFullScreenID, label = "", bitmap = wx.Bitmap("graphics/fullscreen_34x24.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Fullscreen"))
     self.toolbar.Realize()
 
     # disable countries at startup because no json file is loaded yet
@@ -216,6 +222,7 @@ class MainWindow(wx.Frame):
     self.Bind(event = wx.EVT_MENU, handler = self.countriesSelectAll, source = self.menuFileAll)
     self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangEn_onClick, source = self.menuFileLangEn)
     self.Bind(event = wx.EVT_MENU, handler = self.menuFileLangDe_onClick, source = self.menuFileLangDe)
+    self.Bind(event = wx.EVT_MENU, handler = self.fullscreen, source = self.menuFullScreen)
     self.Bind(event = wx.EVT_MENU, handler = self.menuHelpAbout_onClick, source = self.menuHelpAbout)
 
     self.Bind(event = wx.EVT_TOOL, handler = self.download, source = self.toolDownload)
@@ -235,6 +242,7 @@ class MainWindow(wx.Frame):
     self.Bind(event = wx.EVT_TOOL, handler = self.countriesSelectAll, source = self.toolAll)
     self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangEn_onClick, source = self.toolLangEn)
     self.Bind(event = wx.EVT_TOOL, handler = self.menuFileLangDe_onClick, source = self.toolLangDe)
+    self.Bind(event = wx.EVT_TOOL, handler = self.fullscreen, source = self.toolFullScreen)
 
 
   # keep the toolbar buttons in sync with the file menu buttons
@@ -593,6 +601,18 @@ class MainWindow(wx.Frame):
     elif self.language == wx.LANGUAGE_GERMAN:
       self.menuFileLangDe.Check(True)
       self.toolbar.ToggleTool(toolId = self.toolLangDeID, toggle = True)
+
+
+  def fullscreen(self, event):
+    """
+    Activate / deactivate fullscreen mode
+
+    Based on https://wiki.wxpython.org/Using%20Frame.ShowFullScreen
+    """
+    fullscreen = not self.IsFullScreen()
+    self.menuFullScreen.Check(fullscreen)
+    self.toolbar.ToggleTool(toolId = self.toolFullScreenID, toggle = fullscreen)
+    self.ShowFullScreen(fullscreen, style = wx.FULLSCREEN_NOCAPTION | wx.FULLSCREEN_NOMENUBAR | wx.FULLSCREEN_NOSTATUSBAR)
 
 
   def menuHelpAbout_onClick(self, event):

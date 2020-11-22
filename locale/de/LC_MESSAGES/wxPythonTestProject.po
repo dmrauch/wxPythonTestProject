@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-11-22 14:09+CET\n"
+"POT-Creation-Date: 2020-11-22 19:00+CET\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,6 +119,14 @@ msgstr "Be&enden"
 msgid "Terminate the program"
 msgstr "Das Programm beenden"
 
+#: wxPythonTestProject.py:137
+msgid "&Fullscreen\tCtrl+F"
+msgstr "&Vollbildschirm\tCtrl+F"
+
+#: wxPythonTestProject.py:137
+msgid "Show interface in fullscreen mode"
+msgstr "Benutzeroberfläche im Vollbildmodus anzeigen"
+
 #: wxPythonTestProject.py:138
 msgid "A&bout\tCtrl+B"
 msgstr "&Über"
@@ -130,6 +138,10 @@ msgstr "Informationen über dieses Programm"
 #: wxPythonTestProject.py:141
 msgid "&File"
 msgstr "&Datei"
+
+#: wxPythonTestProject.py:144
+msgid "&View"
+msgstr "&Ansicht"
 
 #: wxPythonTestProject.py:142
 msgid "&Help"
@@ -270,6 +282,10 @@ msgstr "Englisch"
 #: wxPythonTestProject.py:183
 msgid "German"
 msgstr "Deutsch"
+
+#: wxPythonTestProject.py:189
+msgid "Fullscreen"
+msgstr "Vollbildschirm"
 
 #: wxPythonTestProject.py:320
 msgid "Save JSON data file as"
