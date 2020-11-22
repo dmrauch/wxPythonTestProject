@@ -5,17 +5,15 @@ Nonsensical Python GUI project using wxPython
 This is just to educate myself, nothing here has any real sense.
 """
 
-import builtins
 from datetime import date
 from datetime import datetime
+import gettext
 import json
 import matplotlib as mpl
+import os
 import urllib.request
 import wx
 import wxMatPlotLib
-
-
-builtins.__dict__['_'] = wx.GetTranslation
 
 
 class MainWindow(wx.Frame):
@@ -33,15 +31,64 @@ class MainWindow(wx.Frame):
     """
 
     super().__init__(parent = None, title = "COVID-19 Data Plotter", size = wx.Size(1150, 800))
+
+    self.appName = os.path.split(os.path.realpath(__file__))[1].replace(".py", "")
+    self.appPath = os.path.split(os.path.realpath(__file__))[0]
     self.SetIcon(wx.Icon("graphics/Signal-Uncapped-t0obs.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
     # self.Maximize(True)
     # self.ShowFullScreen(True)
 
+    self.initialiseSettings()
+    self.initialiseLanguages()
     self.generateUI()
     self.bindUI()
+    self.toggleLanguageButtons()
 
     self.Show(True)
 
+
+  def initialiseSettings(self):
+    """
+    Create the ``self.appConfig`` settings object
+    and create the settings file if does not yet exist
+    """
+    fileName = os.path.join(self.appPath, self.appName) + ".config"
+    self.appConfig = wx.FileConfig(appName = self.appName, localFilename = fileName)
+
+    if not self.appConfig.HasEntry("Language"):
+      self.appConfig.Write(key = "Language", value = "en")
+
+    self.appConfig.Flush()
+
+
+  def initialiseLanguages(self):
+    """
+    Load all languages and apply the appropriate settings
+
+    The English version of the UI is included in the source code already and therefore not loaded explicitly.
+    """
+    self.languages = {}
+    self.loadLanguage("de") # German
+
+    if "de" in self.languages and self.appConfig.Read(key = "Language") == "de":
+      self.language = wx.LANGUAGE_GERMAN
+      self.languages["de"].install()
+    else:
+      self.language = wx.LANGUAGE_ENGLISH
+    self.locale = wx.Locale(self.language, wx.LOCALE_LOAD_DEFAULT)
+
+
+  def loadLanguage(self, lang):
+    """
+    Load the translation from the corresponding .mo file
+    and provide a :class:`gettext.Translations` instance in the ``self.languages`` dict
+
+    :param lang: The two-character language identifier (e.g. "en", "de")
+    :type lang: string
+    """
+    dir = os.path.join("locale", lang, "LC_MESSAGES", "{}.mo".format(self.appName))
+    if os.path.exists(dir):
+      self.languages[lang] = gettext.translation(domain = self.appName, localedir = "locale", languages = [lang])
 
   def generateUI(self):
     """
@@ -512,30 +559,40 @@ class MainWindow(wx.Frame):
   def menuFileLangEn_onClick(self, event):
     """
     Event handling function for interface switch to English
-
-    Since this handler is bound to both the corresponding menu item and the
-    corresponding toolbar item, both controls have to be updated / toggled
-    to also correctly set / toggle the one that wasn't clicked.
-
-    .. todo:: Actually manipulate the settings and update all relevant texts
     """
-    
-    self.menuFileLangEn.Check(True)
-    self.toolbar.ToggleTool(toolId = self.toolLangEnID, toggle = True)
-  
+    self.language = wx.LANGUAGE_ENGLISH
+    self.appConfig.Write(key = "Language", value = "en")
+    self.appConfig.Flush()
+    self.switchLanguage()
+
   def menuFileLangDe_onClick(self, event):
     """
     Event handling function for interface switch to English
+    """
+    self.language = wx.LANGUAGE_GERMAN
+    self.appConfig.Write(key = "Language", value = "de")
+    self.appConfig.Flush()
+    self.switchLanguage()
+
+  def switchLanguage(self):
+    self.toggleLanguageButtons()
+    dlg = wx.MessageDialog(self, _(u"Please restart the program for this change to take effect"), style = wx.OK)
+    dlg.ShowModal()
+
+  def toggleLanguageButtons(self):
+    """
+    Update the toggle state of the language buttons
 
     Since this handler is bound to both the corresponding menu item and the
     corresponding toolbar item, both controls have to be updated / toggled
     to also correctly set / toggle the one that wasn't clicked.
-
-    .. todo:: Actually manipulate the settings and update all relevant texts
     """
-    
-    self.menuFileLangDe.Check(True)
-    self.toolbar.ToggleTool(toolId = self.toolLangDeID, toggle = True)
+    if self.language == wx.LANGUAGE_ENGLISH:
+      self.menuFileLangEn.Check(True)
+      self.toolbar.ToggleTool(toolId = self.toolLangEnID, toggle = True)
+    elif self.language == wx.LANGUAGE_GERMAN:
+      self.menuFileLangDe.Check(True)
+      self.toolbar.ToggleTool(toolId = self.toolLangDeID, toggle = True)
 
 
   def menuHelpAbout_onClick(self, event):
@@ -591,12 +648,12 @@ class MainWindow(wx.Frame):
 if __name__ == "__main__":
   app = wx.App(redirect = False)
 
-  # internationalisation stuff
-  wx.Locale.AddCatalogLookupPathPrefix("locale")
-  # language = wx.LANGUAGE_ENGLISH
-  language = wx.LANGUAGE_GERMAN
-  app.locale = wx.Locale(language)
-  app.locale.AddCatalog("wxPythonTestProject")
+  # # internationalisation stuff
+  # wx.Locale.AddCatalogLookupPathPrefix("locale")
+  # # language = wx.LANGUAGE_ENGLISH
+  # language = wx.LANGUAGE_GERMAN
+  # app.locale = wx.Locale(language)
+  # app.locale.AddCatalog("wxPythonTestProject")
 
   frame = MainWindow()
   app.MainLoop()

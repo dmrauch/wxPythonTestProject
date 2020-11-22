@@ -50,29 +50,38 @@ This creates the file ``locale/wxPythonTestProject.pot`` which is a template for
 
   msgfmt locale/de/LC_MESSAGES/wxPythonTestProject.po -o locale/de/LC_MESSAGES/wxPythonTestProject.mo
 
-Further modification to the source code are:
+The essence of further modifications to the source code is:
 
 .. code:: python
 
-  # at the beginning of the module
-  import builtins
-  builtins.__dict__['_'] = wx.GetTranslation
+  import gettext
 
-  # MainWindow class definition
-  # [...]
-
-  if __name__ == "__main__":
-    app = wx.App(redirect = False)
-
-    # internationalisation stuff
-    wx.Locale.AddCatalogLookupPathPrefix("locale")
-    # language = wx.LANGUAGE_ENGLISH
-    language = wx.LANGUAGE_GERMAN
-    app.locale = wx.Locale(language)
-    app.locale.AddCatalog("wxPythonTestProject")
-
-    frame = MainWindow()
-    app.MainLoop()
+  # in the constructor of the main window
+  self.languages["de"] = gettext.translation(domain = self.appName, localedir = "locale", languages = ["de"])
+  self.languages["de"].install()
+  self.language = wx.LANGUAGE_GERMAN
+  self.locale = wx.Locale(self.language, wx.LOCALE_LOAD_DEFAULT)
+  # load the UI
 
 .. note:: When done like this, the language is obviously hardcoded.
           Of course it is much more convenient to expose this choice via a settings configuration made persistent across application restarts.
+
+
+
+Application Settings
+--------------------
+
+Can be done via :class:`wx.FileConfig`. If a full file path is given, then the configuration file is created at that location. If only just a file name is given, the configuration file is created at a platform-specific location (Linux: in the home directory).
+
+.. code :: python
+
+  # create the config object
+  fileName = os.path.join(self.appPath, self.appName) + ".config"
+  self.appConfig = wx.FileConfig(appName = self.appName, localFilename = fileName)
+
+  # get a setting
+  self.appConfig.Read(key = "Language")
+
+  # write a setting
+  self.appConfig.Write(key = "Language", value = "en")
+  self.appConfig.Flush()
