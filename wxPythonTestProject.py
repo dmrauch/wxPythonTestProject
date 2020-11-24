@@ -12,6 +12,7 @@ import gettext
 import json
 import matplotlib as mpl
 import os
+import sys
 import urllib.request
 import wx
 import wxMatPlotLib
@@ -32,13 +33,23 @@ class MainWindow(wx.Frame):
   def __init__(self):
     """
     Constructor
-    """
 
+    In case the application is run from a bundle created with PyInstaller, resources such as icons, bitmaps and internationalisation files are not available in the application folder  but rather in a temporary directory accessible via :code:`sys._MEIPASS`.
+    Based on https://pyinstaller.readthedocs.io/en/stable/runtime-information.html
+    """
     super().__init__(parent = None, title = "COVID-19 Data Plotter", size = wx.Size(1200, 800))
+
+    # special treatment of resource files for bundled application
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+      self.graphicsPath = os.path.join(sys._MEIPASS, "graphics")
+      self.localePath = os.path.join(sys._MEIPASS, "locale")
+    else:
+      self.graphicsPath = "graphics"
+      self.localePath = "locale"
 
     self.appName = os.path.split(os.path.realpath(__file__))[1].replace(".py", "")
     self.appPath = os.path.split(os.path.realpath(__file__))[0]
-    self.SetIcon(wx.Icon("graphics/logo.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
+    self.SetIcon(wx.Icon(os.path.join(self.graphicsPath, "logo.ico"))) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
     # self.Maximize(True)
 
     self.initialiseSettings()
@@ -89,9 +100,9 @@ class MainWindow(wx.Frame):
     :param lang: The two-character language identifier (e.g. "en", "de")
     :type lang: string
     """
-    dir = os.path.join("locale", lang, "LC_MESSAGES", "{}.mo".format(self.appName))
+    dir = os.path.join(self.localePath, lang, "LC_MESSAGES", "{}.mo".format(self.appName))
     if os.path.exists(dir):
-      self.languages[lang] = gettext.translation(domain = self.appName, localedir = "locale", languages = [lang])
+      self.languages[lang] = gettext.translation(domain = self.appName, localedir = self.localePath, languages = [lang])
 
   def generateUI(self):
     """
@@ -172,24 +183,24 @@ class MainWindow(wx.Frame):
     self.toolDownload = self.toolbar.AddTool(toolId = self.toolDownloadID, label = _(u"Download"), bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_GO_DOWN), shortHelp = _(u"Download JSON data file from the internet (Ctrl+D)"))
     self.toolOpen = self.toolbar.AddTool(toolId = self.toolOpenID, label = _(u"Open"), bitmap = wx.ArtProvider.GetBitmap(id = wx.ART_FILE_OPEN), shortHelp = _(u"Open local JSON data file (Ctrl+O)"))
     self.toolbar.AddSeparator()
-    self.toolAF = self.toolbar.AddTool(toolId = self.toolAF_ID, label = "AF", bitmap = wx.Bitmap("graphics/flag_AF_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_AF_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Afghanistan"), longHelp = _(u"Include/exclude Afghanistan in/from timeseries plotting"))
-    self.toolCO = self.toolbar.AddTool(toolId = self.toolCO_ID, label = "CO", bitmap = wx.Bitmap("graphics/flag_CO_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_CO_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Colombia"), longHelp = _(u"Include/exclude Colombia in/from timeseries plotting"))
-    self.toolCZ = self.toolbar.AddTool(toolId = self.toolCZ_ID, label = "CZ", bitmap = wx.Bitmap("graphics/flag_CZ_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_CZ_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Czechia"), longHelp = _(u"Include/exclude Czechia in/from timeseries plotting"))
-    self.toolDE = self.toolbar.AddTool(toolId = self.toolDE_ID, label = "DE", bitmap = wx.Bitmap("graphics/flag_DE_33x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_DE_33x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Germany"), longHelp = _(u"Include/exclude Germany in/from timeseries plotting"))
-    self.toolES = self.toolbar.AddTool(toolId = self.toolES_ID, label = "ES", bitmap = wx.Bitmap("graphics/flag_ES_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_ES_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Spain"), longHelp = _(u"Include/exclude Spain in/from timeseries plotting"))
-    self.toolFR = self.toolbar.AddTool(toolId = self.toolFR_ID, label = "FR", bitmap = wx.Bitmap("graphics/flag_FR_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_FR_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"France"), longHelp = _(u"Include/exclude France in/from timeseries plotting"))
-    self.toolGB = self.toolbar.AddTool(toolId = self.toolGB_ID, label = "GB", bitmap = wx.Bitmap("graphics/flag_GB_40x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_GB_40x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"United Kingdom"), longHelp = _(u"Include/exclude United Kingdom in/from timeseries plotting"))
-    self.toolGR = self.toolbar.AddTool(toolId = self.toolGR_ID, label = "GR", bitmap = wx.Bitmap("graphics/flag_GR_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_GR_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Greece"), longHelp = _(u"Include/exclude Greece in/from timeseries plotting"))
-    self.toolMX = self.toolbar.AddTool(toolId = self.toolMX_ID, label = "MX", bitmap = wx.Bitmap("graphics/flag_MX_35x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_MX_35x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Mexico"), longHelp = _(u"Include/exclude Mexico in/from timeseries plotting"))
-    self.toolSE = self.toolbar.AddTool(toolId = self.toolSE_ID, label = "SE", bitmap = wx.Bitmap("graphics/flag_SE_32x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_SE_32x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Sweden"), longHelp = _(u"Include/exclude Sweden in/from timeseries plotting"))
-    self.toolSK = self.toolbar.AddTool(toolId = self.toolSK_ID, label = "SK", bitmap = wx.Bitmap("graphics/flag_SK_30x20.bmp"), bmpDisabled = wx.Bitmap("graphics/flag_SK_30x20_disabled.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Slovakia"), longHelp = _(u"Include/exclude Slovakia in/from timeseries plotting"))
-    self.toolNone = self.toolbar.AddTool(toolId = self.toolNone_ID, label = _(u"none  "), bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), bmpDisabled = wx.Bitmap("graphics/transparent_1x1.bmp"), kind = wx.ITEM_NORMAL, shortHelp = _(u"Select no country (Ctrl+N)"), longHelp = _(u"Exclude all countries from timeseries plotting (Ctrl+N)"))
-    self.toolAll = self.toolbar.AddTool(toolId = self.toolAll_ID, label = _(u"all  "), bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), bmpDisabled = wx.Bitmap("graphics/transparent_1x1.bmp"), kind = wx.ITEM_NORMAL, shortHelp = _(u"Select all countries (Ctrl+A)"), longHelp = _(u"Include all countries in timeseries plotting (Ctrl+A)"))
+    self.toolAF = self.toolbar.AddTool(toolId = self.toolAF_ID, label = "AF", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_AF_30x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_AF_30x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Afghanistan"), longHelp = _(u"Include/exclude Afghanistan in/from timeseries plotting"))
+    self.toolCO = self.toolbar.AddTool(toolId = self.toolCO_ID, label = "CO", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_CO_30x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_CO_30x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Colombia"), longHelp = _(u"Include/exclude Colombia in/from timeseries plotting"))
+    self.toolCZ = self.toolbar.AddTool(toolId = self.toolCZ_ID, label = "CZ", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_CZ_30x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_CZ_30x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Czechia"), longHelp = _(u"Include/exclude Czechia in/from timeseries plotting"))
+    self.toolDE = self.toolbar.AddTool(toolId = self.toolDE_ID, label = "DE", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_DE_33x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_DE_33x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Germany"), longHelp = _(u"Include/exclude Germany in/from timeseries plotting"))
+    self.toolES = self.toolbar.AddTool(toolId = self.toolES_ID, label = "ES", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_ES_30x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_ES_30x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Spain"), longHelp = _(u"Include/exclude Spain in/from timeseries plotting"))
+    self.toolFR = self.toolbar.AddTool(toolId = self.toolFR_ID, label = "FR", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_FR_30x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_FR_30x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"France"), longHelp = _(u"Include/exclude France in/from timeseries plotting"))
+    self.toolGB = self.toolbar.AddTool(toolId = self.toolGB_ID, label = "GB", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_GB_40x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_GB_40x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"United Kingdom"), longHelp = _(u"Include/exclude United Kingdom in/from timeseries plotting"))
+    self.toolGR = self.toolbar.AddTool(toolId = self.toolGR_ID, label = "GR", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_GR_30x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_GR_30x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Greece"), longHelp = _(u"Include/exclude Greece in/from timeseries plotting"))
+    self.toolMX = self.toolbar.AddTool(toolId = self.toolMX_ID, label = "MX", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_MX_35x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_MX_35x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Mexico"), longHelp = _(u"Include/exclude Mexico in/from timeseries plotting"))
+    self.toolSE = self.toolbar.AddTool(toolId = self.toolSE_ID, label = "SE", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_SE_32x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_SE_32x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Sweden"), longHelp = _(u"Include/exclude Sweden in/from timeseries plotting"))
+    self.toolSK = self.toolbar.AddTool(toolId = self.toolSK_ID, label = "SK", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "flag_SK_30x20.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "flag_SK_30x20_disabled.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Slovakia"), longHelp = _(u"Include/exclude Slovakia in/from timeseries plotting"))
+    self.toolNone = self.toolbar.AddTool(toolId = self.toolNone_ID, label = _(u"none  "), bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), kind = wx.ITEM_NORMAL, shortHelp = _(u"Select no country (Ctrl+N)"), longHelp = _(u"Exclude all countries from timeseries plotting (Ctrl+N)"))
+    self.toolAll = self.toolbar.AddTool(toolId = self.toolAll_ID, label = _(u"all  "), bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), kind = wx.ITEM_NORMAL, shortHelp = _(u"Select all countries (Ctrl+A)"), longHelp = _(u"Include all countries in timeseries plotting (Ctrl+A)"))
     self.toolbar.AddSeparator()
-    self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), shortHelp = _(u"English"), kind = wx.ITEM_RADIO)
-    self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de  ", bitmap = wx.Bitmap("graphics/transparent_1x1.bmp"), shortHelp = _(u"German"), kind = wx.ITEM_RADIO)
+    self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en  ", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), shortHelp = _(u"English"), kind = wx.ITEM_RADIO)
+    self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de  ", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), shortHelp = _(u"German"), kind = wx.ITEM_RADIO)
     self.toolbar.AddSeparator()
-    self.toolFullScreen = self.toolbar.AddTool(toolId = self.toolFullScreenID, label = "", bitmap = wx.Bitmap("graphics/fullscreen_34x24.bmp"), kind = wx.ITEM_CHECK, shortHelp = _(u"Fullscreen"))
+    self.toolFullScreen = self.toolbar.AddTool(toolId = self.toolFullScreenID, label = "", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "fullscreen_34x24.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Fullscreen"))
     self.toolbar.Realize()
 
     # disable countries at startup because no json file is loaded yet

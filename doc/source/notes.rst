@@ -9,3 +9,4 @@ Notes on Specific Tools and Technologies
    git
    sphinx
    wxPython
+   distribute

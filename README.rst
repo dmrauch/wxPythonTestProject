@@ -157,8 +157,34 @@ matplotlib
 
 
 
+PyInstaller
+-----------
+
+If you want to bundle the application, i.e. build a distribution ready for deployment on other machines, install PyInstaller:
+
+.. code:: bash
+
+  (env) $ pip install pyinstaller[encryption]
+
+
+
 Development
 ===========
+
+
+Application
+-----------
+
+To run the application, simply do
+
+.. code:: bash
+
+  (env) $ python wxPythonTestProject.py
+
+
+
+Internationalisation
+--------------------
 
 The creation of a translation factors into two steps: Whenever there is an update to the labels and texts shown in the GUI,
 
@@ -178,21 +204,6 @@ will create the compiled internationalisation files, e.g. ``locale/de/LC_MESSAGE
 
 
 
-Build and Run
-=============
-
-
-Application
------------
-
-To run the application, simply do
-
-.. code:: bash
-
-  (env) $ python wxPythonTestProject.py
-
-
-
 Sphinx Documentation
 --------------------
 
@@ -204,3 +215,14 @@ In the active environment, do
   (env) $ make html
 
 The html version of the documentation is then made available in ``doc/build/html/index.html``.
+
+
+
+Bundling and Deployment
+-----------------------
+
+To build a distribution, do
+
+.. code:: bash
+
+  (env) $ make dist
