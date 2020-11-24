@@ -38,7 +38,7 @@ class MainWindow(wx.Frame):
 
     self.appName = os.path.split(os.path.realpath(__file__))[1].replace(".py", "")
     self.appPath = os.path.split(os.path.realpath(__file__))[0]
-    self.SetIcon(wx.Icon("graphics/Signal-Uncapped-t0obs.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
+    self.SetIcon(wx.Icon("graphics/logo.ico")) # https://stackoverflow.com/questions/25002573/how-to-set-icon-on-wxframe
     # self.Maximize(True)
 
     self.initialiseSettings()
