@@ -120,10 +120,10 @@ class MainWindow(wx.Frame):
     # list of standard IDs which lead to small icons in the menu: https://wxpython.org/Phoenix/docs/html/wx.StandardID.enumeration.html
 
     menuFile = wx.Menu()
-    self.menuFileDownload = menuFile.Append(id = wx.ID_DOWN, item = _(u"&Download\tCtrl+D"), helpString = _(u"Download JSON data file from the internet"))
-    self.menuFileOpen = menuFile.Append(id = wx.ID_OPEN, item = _(u"&Open"), helpString = _(u"Open local JSON data file"))
+    self.menuFileDownload = menuFile.Append(id = wx.ID_DOWN, item = _(u"&Download\tCtrl+D"), helpString = _(u"Download JSON data file from the internet (Ctrl+D)"))
+    self.menuFileOpen = menuFile.Append(id = wx.ID_OPEN, item = _(u"&Open"), helpString = _(u"Open local JSON data file (Ctrl+O)"))
     # menuFile.AppendSeparator()
-    menuFile.Append(wx.ID_EXIT, _(u"E&xit"), _(u"Terminate the program"))
+    menuFile.Append(wx.ID_EXIT, _(u"E&xit\tAlt+F4"), _(u"Terminate the program (Alt+F4)"))
 
     menuCountries = wx.Menu()
     self.menuAF = menuCountries.Append(id = wx.ID_ANY, item = _(u"AF / Afghanistan"), kind = wx.ITEM_CHECK)
@@ -142,13 +142,13 @@ class MainWindow(wx.Frame):
     self.menuCountriesAll = menuCountries.Append(id = wx.ID_ANY, item = _(u"Select &all\tCtrl+A"))
 
     menuLang = wx.Menu()
-    self.menuLangEn = menuLang.Append(id = wx.ID_ANY, item = _("&English\tCtrl+E"), helpString = _(u"Show interface in English"), kind = wx.ITEM_RADIO)
-    self.menuLangDe = menuLang.Append(id = wx.ID_ANY, item = _("&German\tCtrl+G"), helpString = _(u"Show interface in German"), kind = wx.ITEM_RADIO)
+    self.menuLangEn = menuLang.Append(id = wx.ID_ANY, item = _("&English\tCtrl+E"), helpString = _(u"Show interface in English (Ctrl+E)"), kind = wx.ITEM_RADIO)
+    self.menuLangDe = menuLang.Append(id = wx.ID_ANY, item = _("&German\tCtrl+G"), helpString = _(u"Show interface in German (Ctrl+G)"), kind = wx.ITEM_RADIO)
 
     menuView = wx.Menu()
     menuView.Append(id = wx.ID_ANY, item = _(u"&Countries"), subMenu = menuCountries, helpString = _(u"Country selection for timeseries plotting"))
     menuView.Append(id = wx.ID_ANY, item = _(u"&Language"), subMenu = menuLang, helpString = _(u"Interface language"))
-    self.menuFullScreen = menuView.Append(id = wx.ID_ANY, item = _(u"&Fullscreen\tCtrl+F"), kind = wx.ITEM_CHECK, helpString = _(u"Show interface in fullscreen mode"))
+    self.menuFullScreen = menuView.Append(id = wx.ID_ANY, item = _(u"&Fullscreen\tCtrl+F"), kind = wx.ITEM_CHECK, helpString = _(u"Show interface in fullscreen mode (Ctrl+F)"))
 
     menuHelp = wx.Menu()
     self.menuHelpAbout = menuHelp.Append(id = wx.ID_ABOUT, item = _(u"A&bout\tCtrl+B"), helpString = _(u"Information about this program"), kind =  wx.ITEM_NORMAL)
@@ -197,10 +197,10 @@ class MainWindow(wx.Frame):
     self.toolNone = self.toolbar.AddTool(toolId = self.toolNone_ID, label = _(u"none  "), bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), kind = wx.ITEM_NORMAL, shortHelp = _(u"Select no country (Ctrl+N)"), longHelp = _(u"Exclude all countries from timeseries plotting (Ctrl+N)"))
     self.toolAll = self.toolbar.AddTool(toolId = self.toolAll_ID, label = _(u"all  "), bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), kind = wx.ITEM_NORMAL, shortHelp = _(u"Select all countries (Ctrl+A)"), longHelp = _(u"Include all countries in timeseries plotting (Ctrl+A)"))
     self.toolbar.AddSeparator()
-    self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en  ", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), shortHelp = _(u"English"), kind = wx.ITEM_RADIO)
-    self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de  ", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), shortHelp = _(u"German"), kind = wx.ITEM_RADIO)
+    self.toolLangEn = self.toolbar.AddTool(toolId = self.toolLangEnID, label = "en  ", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), kind = wx.ITEM_RADIO, shortHelp = _(u"English (Ctrl+E)"), longHelp = _(u"Show interface in English (Ctrl+E)"))
+    self.toolLangDe = self.toolbar.AddTool(toolId = self.toolLangDeID, label = "de  ", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), kind = wx.ITEM_RADIO, shortHelp = _(u"German (Ctrl+G)"), longHelp = _(u"Show interface in German (Ctrl+G)"))
     self.toolbar.AddSeparator()
-    self.toolFullScreen = self.toolbar.AddTool(toolId = self.toolFullScreenID, label = "", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "fullscreen_34x24.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Fullscreen"))
+    self.toolFullScreen = self.toolbar.AddTool(toolId = self.toolFullScreenID, label = "", bitmap = wx.Bitmap(os.path.join(self.graphicsPath, "fullscreen_34x24.bmp")), bmpDisabled = wx.Bitmap(os.path.join(self.graphicsPath, "transparent_1x1.bmp")), kind = wx.ITEM_CHECK, shortHelp = _(u"Fullscreen (Ctrl+F)"), longHelp = _(u"Show interface in fullscreen mode (Ctrl+F)"))
     self.toolbar.Realize()
 
     # disable countries at startup because no json file is loaded yet

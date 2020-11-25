@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-11-22 19:35+CET\n"
+"POT-Creation-Date: 2020-11-25 01:58+CET\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,29 +15,29 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: wxPythonTestProject.py:112
+#: wxPythonTestProject.py:123
 msgid "&Download\tCtrl+D"
-msgstr "&Herunterladen\tStrg+D"
+msgstr "&Herunterladen\tCtrl+D"
 
-#: wxPythonTestProject.py:112
-msgid "Download JSON data file from the internet"
-msgstr "JSON-Daten-Datei aus dem Internet herunterladen"
+#: wxPythonTestProject.py:123 wxPythonTestProject.py:183
+msgid "Download JSON data file from the internet (Ctrl+D)"
+msgstr "JSON-Daten-Datei aus dem Internet herunterladen (Strg+D)"
 
 #: wxPythonTestProject.py:113
 msgid "&Open"
 msgstr "&Öffnen"
 
-#: wxPythonTestProject.py:113
-msgid "Open local JSON data file"
-msgstr "Lokale JSON-Daten-Datei öffnen"
+#: wxPythonTestProject.py:124 wxPythonTestProject.py:184
+msgid "Open local JSON data file (Ctrl+O)"
+msgstr "Lokale JSON-Daten-Datei öffnen (Strg+O)"
 
-#: wxPythonTestProject.py:115
-msgid "E&xit"
-msgstr "Be&enden"
+#: wxPythonTestProject.py:126
+msgid "E&xit\tAlt+F4"
+msgstr "Be&enden\tAlt+F4"
 
-#: wxPythonTestProject.py:115
-msgid "Terminate the program"
-msgstr "Das Programm beenden"
+#: wxPythonTestProject.py:126
+msgid "Terminate the program (Alt+F4)"
+msgstr "Das Programm beenden (Alt+F4)"
 
 #: wxPythonTestProject.py:118 wxPythonTestProject.py:532
 msgid "AF / Afghanistan"
@@ -91,21 +91,21 @@ msgstr "kei&nes auswählen\tCtrl+N"
 msgid "Select &all\tCtrl+A"
 msgstr "&alle auswählen\tCtrl+A"
 
-#: wxPythonTestProject.py:134
+#: wxPythonTestProject.py:145
 msgid "&English\tCtrl+E"
 msgstr "&Englisch\tCtrl+E"
 
-#: wxPythonTestProject.py:134
-msgid "Show interface in English"
-msgstr "Benutzeroberfläche auf Englisch anzeigen"
+#: wxPythonTestProject.py:145 wxPythonTestProject.py:200
+msgid "Show interface in English (Ctrl+E)"
+msgstr "Benutzeroberfläche auf Englisch anzeigen (Strg+E)"
 
-#: wxPythonTestProject.py:135
+#: wxPythonTestProject.py:146
 msgid "&German\tCtrl+G"
 msgstr "Deutsch\tCtrl+G"
 
-#: wxPythonTestProject.py:135
-msgid "Show interface in German"
-msgstr "Benutzeroberfläche auf Deutsch anzeigen"
+#: wxPythonTestProject.py:146 wxPythonTestProject.py:201
+msgid "Show interface in German (Ctrl+G)"
+msgstr "Benutzeroberfläche auf Deutsch anzeigen (Strg+G)"
 
 #: wxPythonTestProject.py:138
 msgid "&Countries"
@@ -127,9 +127,9 @@ msgstr "Sprache der Benutzeroberfläche"
 msgid "&Fullscreen\tCtrl+F"
 msgstr "&Vollbildschirm\tCtrl+F"
 
-#: wxPythonTestProject.py:140
-msgid "Show interface in fullscreen mode"
-msgstr "Benutzeroberfläche im Vollbildmodus anzeigen"
+#: wxPythonTestProject.py:151 wxPythonTestProject.py:203
+msgid "Show interface in fullscreen mode (Ctrl+F)"
+msgstr "Benutzeroberfläche im Vollbildmodus anzeigen (Strg+F)"
 
 #: wxPythonTestProject.py:143
 msgid "A&bout\tCtrl+B"
@@ -155,17 +155,9 @@ msgstr "&Hilfe"
 msgid "Download"
 msgstr "Herunterladen"
 
-#: wxPythonTestProject.py:172
-msgid "Download JSON data file from the internet (Ctrl+D)"
-msgstr "JSON-Daten-Datei aus dem Internet herunterladen (Strg+D)"
-
 #: wxPythonTestProject.py:173
 msgid "Open"
 msgstr "Öffnen"
-
-#: wxPythonTestProject.py:173
-msgid "Open local JSON data file (Ctrl+O)"
-msgstr "Lokale JSON-Daten-Datei öffnen (Ctrl+O)"
 
 #: wxPythonTestProject.py:175
 msgid "Afghanistan"
@@ -255,41 +247,41 @@ msgstr "Slovakei im/vom Darstellen der Zeitreihen ein/ausschließen"
 msgid "Slovakia"
 msgstr "Slowakei"
 
-#: wxPythonTestProject.py:186
+#: wxPythonTestProject.py:197
 msgid "Exclude all countries from timeseries plotting (Ctrl+N)"
-msgstr "Alle Länder vom Darstellen der Zeitreihen ausschließen (Ctrl+N)"
+msgstr "Alle Länder vom Darstellen der Zeitreihen ausschließen (Strg+N)"
 
-#: wxPythonTestProject.py:186
+#: wxPythonTestProject.py:197
 msgid "Select no country (Ctrl+N)"
-msgstr "kein Land auswählen (Ctrl+N)"
+msgstr "kein Land auswählen (Strg+N)"
 
 #: wxPythonTestProject.py:186
 msgid "none  "
 msgstr "keines  "
 
-#: wxPythonTestProject.py:187
+#: wxPythonTestProject.py:198
 msgid "Include all countries in timeseries plotting (Ctrl+A)"
-msgstr "Alle Länder im Darstellen der Zeitreihen einschließen (Ctrl+A)"
+msgstr "Alle Länder im Darstellen der Zeitreihen einschließen (Strg+A)"
 
-#: wxPythonTestProject.py:187
+#: wxPythonTestProject.py:198
 msgid "Select all countries (Ctrl+A)"
-msgstr "alle Länder auswählen (Ctrl+A)"
+msgstr "alle Länder auswählen (Strg+A)"
 
 #: wxPythonTestProject.py:187
 msgid "all  "
 msgstr "alle  "
 
-#: wxPythonTestProject.py:189
-msgid "English"
-msgstr "Englisch"
+#: wxPythonTestProject.py:200
+msgid "English (Ctrl+E)"
+msgstr "Englisch (Strg+E)"
 
-#: wxPythonTestProject.py:190
-msgid "German"
-msgstr "Deutsch"
+#: wxPythonTestProject.py:201
+msgid "German (Ctrl+G)"
+msgstr "Deutsch (Strg+G)"
 
-#: wxPythonTestProject.py:192
-msgid "Fullscreen"
-msgstr "Vollbildschirm"
+#: wxPythonTestProject.py:203
+msgid "Fullscreen (Ctrl+F)"
+msgstr "Vollbildschirm (Strg+F)"
 
 #: wxPythonTestProject.py:331
 msgid "Save JSON data file as"
